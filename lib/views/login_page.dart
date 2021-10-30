@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:siapjulka/constant/pallete_color.dart';
+import 'package:http/http.dart' as http;
+import 'package:siapjulka/models/login.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key, this.title}) : super(key: key);
@@ -11,6 +16,19 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  var usernameController = TextEditingController();
+  var passwordController = TextEditingController();
+
+  final bool _isLoading = false;
+
+  String _jsonData = "";
+  String _jsonLogin = "";
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   Widget _logoIcon() {
     return const Image(
       image: AssetImage('assets/images/elektronika_icon.png'),
@@ -18,31 +36,14 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _entryFieldPassword(String title, {bool isPassword = false}) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 20),
-      child: TextFormField(
-        obscureText: isPassword,
-        style: const TextStyle(fontSize: 18),
-        decoration: const InputDecoration(
-          border: InputBorder.none,
-          filled: true,
-          fillColor: Color(0xfff3f3f4),
-          hintText: "Password",
-          suffixIcon: Icon(Icons.lock),
-        ),
-      ),
-    );
-  }
-
-  Widget _entryFieldUsername(String title, {bool isPassword = false}) {
+  Widget _entryFieldUsername(String title) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TextField(
-            obscureText: isPassword,
+            controller: usernameController,
             style: const TextStyle(fontSize: 18),
             decoration: const InputDecoration(
               border: InputBorder.none,
@@ -53,6 +54,24 @@ class _LoginPageState extends State<LoginPage> {
             ),
           )
         ],
+      ),
+    );
+  }
+
+  Widget _entryFieldPassword(String title, {bool isPassword = false}) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 20),
+      child: TextFormField(
+        controller: passwordController,
+        obscureText: isPassword,
+        style: const TextStyle(fontSize: 18),
+        decoration: const InputDecoration(
+          border: InputBorder.none,
+          filled: true,
+          fillColor: Color(0xfff3f3f4),
+          hintText: "Password",
+          suffixIcon: Icon(Icons.lock),
+        ),
       ),
     );
   }
@@ -68,7 +87,9 @@ class _LoginPageState extends State<LoginPage> {
         color: Colors.transparent,
         child: InkWell(
           splashColor: Pallete.blueElectronica[50],
-          onTap: () {},
+          onTap: () {
+            _checkLogin();
+          },
           child: const Center(
             child: Text(
               "Sign In",
@@ -144,5 +165,48 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  void _checkLogin() async {
+    if (passwordController.text.isNotEmpty &&
+        usernameController.text.isNotEmpty) {
+      var response = await http.post(
+          Uri.parse("http://192.168.100.162:8000/api/login"),
+          body: ({
+            "username": usernameController.text,
+            "password": passwordController.text
+          }));
+      final body = jsonDecode(response.body);
+
+      try {
+        if (response.statusCode == 200) {
+          print("Login username " + response.toString());
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("${body['message']}, ID: ${body['id']}"),
+            backgroundColor: Colors.green[500],
+            duration: const Duration(milliseconds: 2000),
+          ));
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("${body['message']}"),
+            backgroundColor: Colors.red[500],
+            duration: const Duration(milliseconds: 2000),
+          ));
+        }
+      } catch (e) {
+        Exception(e);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: const Text("Maaf, terjadi kesalahan."),
+          backgroundColor: Colors.red[500],
+          duration: const Duration(milliseconds: 2000),
+        ));
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: const Text("Username dan Password harus diisi"),
+        backgroundColor: Colors.red[500],
+        duration: const Duration(milliseconds: 2000),
+      ));
+    }
   }
 }

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:siapjulka/constant/pallete_color.dart';
 
-class MenuPage extends StatefulWidget {
-  const MenuPage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<MenuPage> createState() => _MenuPageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _MenuPageState extends State<MenuPage> {
+class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
