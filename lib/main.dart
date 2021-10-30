@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:siapjulka/constant/pallete_color.dart';
-import 'package:siapjulka/views/menu_page.dart';
+import 'package:siapjulka/pages/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       // title: 'Flutter Demo',
       theme: ThemeData(primarySwatch: Pallete.blueElectronica),
-      home: const MenuPage(),
+      home: const HomePage(),
     );
   }
 }
