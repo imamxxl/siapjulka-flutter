@@ -36,6 +36,26 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  Widget _title() {
+    return RichText(
+      textAlign: TextAlign.center,
+      text: const TextSpan(
+          text: 'Sistem Absensi',
+          style: TextStyle(
+              fontSize: 20, fontWeight: FontWeight.w400, color: Colors.black),
+          children: [
+            TextSpan(
+              text: ' Perkuliahan',
+              style: TextStyle(color: Colors.black, fontSize: 20),
+            ),
+            TextSpan(
+              text: ' Jurusan Elektronika',
+              style: TextStyle(color: Color(0xff3E8DBA), fontSize: 20),
+            ),
+          ]),
+    );
+  }
+
   Widget _entryFieldUsername(String title) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
@@ -76,6 +96,15 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  Widget _usernamePasswordWidget() {
+    return Column(
+      children: <Widget>[
+        _entryFieldUsername("Username"),
+        _entryFieldPassword("Password", isPassword: true),
+      ],
+    );
+  }
+
   Widget _submitButton() {
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -98,35 +127,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _title() {
-    return RichText(
-      textAlign: TextAlign.center,
-      text: const TextSpan(
-          text: 'Sistem Absensi',
-          style: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.w400, color: Colors.black),
-          children: [
-            TextSpan(
-              text: ' Perkuliahan',
-              style: TextStyle(color: Colors.black, fontSize: 20),
-            ),
-            TextSpan(
-              text: ' Jurusan Elektronika',
-              style: TextStyle(color: Color(0xff3E8DBA), fontSize: 20),
-            ),
-          ]),
-    );
-  }
-
-  Widget _usernamePasswordWidget() {
-    return Column(
-      children: <Widget>[
-        _entryFieldUsername("Username"),
-        _entryFieldPassword("Password", isPassword: true),
-      ],
     );
   }
 
