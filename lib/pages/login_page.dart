@@ -1,10 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:siapjulka/constant/pallete_color.dart';
 import 'package:http/http.dart' as http;
-import 'package:siapjulka/models/login.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key, this.title}) : super(key: key);
@@ -18,11 +16,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   var usernameController = TextEditingController();
   var passwordController = TextEditingController();
-
-  final bool _isLoading = false;
-
-  String _jsonData = "";
-  String _jsonLogin = "";
 
   @override
   void initState() {
@@ -180,7 +173,6 @@ class _LoginPageState extends State<LoginPage> {
 
       try {
         if (response.statusCode == 200) {
-          print("Login username " + response.toString());
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text("Berhasil Login, ID: ${body['id']}"),
             backgroundColor: Colors.green[500],
