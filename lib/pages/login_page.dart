@@ -1,8 +1,11 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:siapjulka/constant/pallete_color.dart';
 import 'package:http/http.dart' as http;
+import 'package:siapjulka/pages/home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key, this.title}) : super(key: key);
@@ -16,6 +19,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   var usernameController = TextEditingController();
   var passwordController = TextEditingController();
+
+  int _state = 0;
 
   @override
   void initState() {
@@ -73,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _entryFieldPassword(String title, {bool isPassword = false}) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 20),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       child: TextFormField(
         controller: passwordController,
         obscureText: isPassword,
@@ -112,12 +117,7 @@ class _LoginPageState extends State<LoginPage> {
           onTap: () {
             _checkLogin();
           },
-          child: const Center(
-            child: Text(
-              "Sign In",
-              style: TextStyle(fontSize: 20, color: Colors.white),
-            ),
-          ),
+          child: setUpButtonChild(),
         ),
       ),
     );
@@ -149,10 +149,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 10),
               _submitButton(),
-              // _divider(),
-              // _facebookButton(),
               SizedBox(height: height * .055),
-              // _createAccountLabel(),
             ],
           ),
         ),
@@ -169,16 +166,32 @@ class _LoginPageState extends State<LoginPage> {
             "username": usernameController.text,
             "password": passwordController.text
           }));
-      final body = jsonDecode(response.body);
 
       try {
         if (response.statusCode == 200) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text("Berhasil Login, ID: ${body['id']}"),
-            backgroundColor: Colors.green[500],
-            duration: const Duration(milliseconds: 2000),
-          ));
+          setState(() {
+            setState(() {
+              if (_state == 0) {
+                animateButton();
+              }
+            });
+          });
+          final body = jsonDecode(response.body);
+
+          SharedPreferences preferences = await SharedPreferences.getInstance();
+          await preferences.setInt("id", body['id']);
+
+          // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          //   content: Text("Berhasil Login, ID: ${body['id']}"),
+          //   backgroundColor: Colors.green[500],
+          //   duration: const Duration(milliseconds: 2000),
+          // ));
+
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const HomePage()));
         } else {
+          final body = jsonDecode(response.body);
+
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text("${body['message']}"),
             backgroundColor: Colors.red[500],
@@ -186,9 +199,9 @@ class _LoginPageState extends State<LoginPage> {
           ));
         }
       } catch (e) {
-        Exception(e);
+        // Exception(e);
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: const Text("Maaf, terjadi kesalahan."),
+          content: const Text("Gagal menghubungkan"),
           backgroundColor: Colors.red[500],
           duration: const Duration(milliseconds: 2000),
         ));
@@ -201,4 +214,48 @@ class _LoginPageState extends State<LoginPage> {
       ));
     }
   }
+
+  Widget setUpButtonChild() {
+    if (_state == 0) {
+      return const Center(
+        child: Text(
+          "Sign In",
+          style: TextStyle(fontSize: 20, color: Colors.white),
+        ),
+      );
+    } else if (_state == 1) {
+      return const Center(
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+        ),
+      );
+    } else {
+      return const Icon(
+        Icons.check,
+        color: Colors.white,
+        size: 40,
+      );
+    }
+  }
+
+  void animateButton() {
+    setState(() {
+      _state = 1;
+    });
+
+    Timer(Duration(milliseconds: 1500), () {
+      setState(() {
+        _state = 2;
+      });
+    });
+  }
+
+  // void pageRoute(String id) async {
+  //   // Here share value user ID with shared preference
+  //   SharedPreferences preferences = await SharedPreferences.getInstance();
+  //   await preferences.setString("User", id);
+
+  //   Navigator.push(
+  //       context, MaterialPageRoute(builder: (context) => const HomePage()));
+  // }
 }
