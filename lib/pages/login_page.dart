@@ -182,7 +182,7 @@ class _LoginPageState extends State<LoginPage> {
         if (response.statusCode == 200) {
           print("Login username " + response.toString());
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text("${body['message']}, ID: ${body['id']}"),
+            content: Text("Berhasil Login, ID: ${body['id']}"),
             backgroundColor: Colors.green[500],
             duration: const Duration(milliseconds: 2000),
           ));
