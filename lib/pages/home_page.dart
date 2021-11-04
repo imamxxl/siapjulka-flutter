@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:siapjulka/constant/pallete_color.dart';
+import 'package:siapjulka/pages/profile_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -10,6 +11,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+
   static const TextStyle optionStyle =
       TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
@@ -18,7 +20,7 @@ class _HomePageState extends State<HomePage> {
       style: optionStyle,
     ),
     Text(
-      'Index 1: Search',
+      'Index 1: Cari Kelas',
       style: optionStyle,
     ),
     Text(
@@ -26,11 +28,7 @@ class _HomePageState extends State<HomePage> {
       style: optionStyle,
     ),
     Text(
-      'Index 3: Report',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 4: Account',
+      'Index 3: Laporan',
       style: optionStyle,
     ),
   ];
@@ -46,6 +44,15 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Siapjulka'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const ProfilePage()));
+            },
+            icon: const Icon(Icons.account_circle),
+          ),
+        ],
       ),
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
@@ -58,7 +65,7 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            label: 'Search',
+            label: 'Kelas',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.qr_code_scanner),
@@ -66,15 +73,11 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.analytics_outlined),
-            label: 'Report',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_box_outlined),
-            label: 'Account',
+            label: 'Laporan',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Pallete.blueElectronica,
+        selectedItemColor: Pallete.primaryColor,
         showUnselectedLabels: true,
         unselectedItemColor: Colors.grey,
         onTap: _onItemTapped,

@@ -25,6 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
+    _checkInfoLogin();
   }
 
   Widget _logoIcon() {
@@ -108,12 +109,12 @@ class _LoginPageState extends State<LoginPage> {
       width: MediaQuery.of(context).size.width,
       height: 50,
       decoration: BoxDecoration(
-        color: Pallete.blueElectronica,
+        color: Pallete.primaryColor,
       ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          splashColor: Pallete.blueElectronica[50],
+          splashColor: Pallete.primaryColor[200],
           onTap: () {
             _checkLogin();
           },
@@ -160,6 +161,15 @@ class _LoginPageState extends State<LoginPage> {
   void _checkLogin() async {
     if (passwordController.text.isNotEmpty &&
         usernameController.text.isNotEmpty) {
+      // // here ip for teathering smartphones
+      // var response = await http.post(
+      //     Uri.parse("http://192.168.43.6:8000/api/login"),
+      //     body: ({
+      //       "username": usernameController.text,
+      //       "password": passwordController.text
+      //     }));
+
+      // // here ip for wifi
       var response = await http.post(
           Uri.parse("http://192.168.100.162:8000/api/login"),
           body: ({
@@ -170,22 +180,14 @@ class _LoginPageState extends State<LoginPage> {
       try {
         if (response.statusCode == 200) {
           setState(() {
-            setState(() {
-              if (_state == 0) {
-                animateButton();
-              }
-            });
+            if (_state == 0) {
+              animateButton();
+            }
           });
           final body = jsonDecode(response.body);
 
           SharedPreferences preferences = await SharedPreferences.getInstance();
-          await preferences.setInt("id", body['id']);
-
-          // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          //   content: Text("Berhasil Login, ID: ${body['id']}"),
-          //   backgroundColor: Colors.green[500],
-          //   duration: const Duration(milliseconds: 2000),
-          // ));
+          await preferences.setInt("login", body["id"]);
 
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => const HomePage()));
@@ -243,19 +245,20 @@ class _LoginPageState extends State<LoginPage> {
       _state = 1;
     });
 
-    Timer(Duration(milliseconds: 1500), () {
+    Timer(const Duration(milliseconds: 1500), () {
       setState(() {
         _state = 2;
       });
     });
   }
 
-  // void pageRoute(String id) async {
-  //   // Here share value user ID with shared preference
-  //   SharedPreferences preferences = await SharedPreferences.getInstance();
-  //   await preferences.setString("User", id);
-
-  //   Navigator.push(
-  //       context, MaterialPageRoute(builder: (context) => const HomePage()));
-  // }
+  void _checkInfoLogin() async {
+    // Here we check if user already login or id already available or not
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    int? val = preferences.getInt("login");
+    if (val != null) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const HomePage()));
+    }
+  }
 }
