@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:siapjulka/constant/pallete_color.dart';
-import 'package:siapjulka/pages/profile_page.dart';
+import 'package:siapjulka/routes/name_route.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -47,8 +48,7 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const ProfilePage()));
+              Get.toNamed(NameRoute.profil);
             },
             icon: const Icon(Icons.account_circle),
           ),

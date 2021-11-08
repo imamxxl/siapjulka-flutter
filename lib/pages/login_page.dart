@@ -2,10 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:siapjulka/constant/pallete_color.dart';
 import 'package:http/http.dart' as http;
-import 'package:siapjulka/pages/home_page.dart';
+import 'package:siapjulka/routes/name_route.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key, this.title}) : super(key: key);
@@ -185,35 +186,51 @@ class _LoginPageState extends State<LoginPage> {
             }
           });
           final body = jsonDecode(response.body);
-
           SharedPreferences preferences = await SharedPreferences.getInstance();
           await preferences.setInt("login", body["id"]);
-
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => const HomePage()));
+          Get.offAllNamed(NameRoute.home);
         } else {
           final body = jsonDecode(response.body);
-
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text("${body['message']}"),
-            backgroundColor: Colors.red[500],
-            duration: const Duration(milliseconds: 2000),
-          ));
+          Get.snackbar(
+            "Gagal",
+            "${body['message']}",
+            barBlur: 2.0,
+            backgroundColor: Pallete.dangerColor,
+            snackPosition: SnackPosition.BOTTOM,
+            colorText: Colors.white,
+            icon: const Icon(
+              Icons.not_interested,
+              color: Colors.white,
+            ),
+          );
         }
       } catch (e) {
-        // Exception(e);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: const Text("Gagal menghubungkan"),
-          backgroundColor: Colors.red[500],
-          duration: const Duration(milliseconds: 2000),
-        ));
+        Get.snackbar(
+          "Gagal!",
+          "Tidak dapat Menghubungkan']}",
+          barBlur: 2.0,
+          backgroundColor: Pallete.dangerColor,
+          snackPosition: SnackPosition.BOTTOM,
+          colorText: Colors.white,
+          icon: const Icon(
+            Icons.not_interested,
+            color: Colors.white,
+          ),
+        );
       }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: const Text("Username dan Password harus diisi"),
-        backgroundColor: Colors.red[500],
-        duration: const Duration(milliseconds: 2000),
-      ));
+      Get.snackbar(
+        "Gagal!",
+        "Username dan Password harus diisi']}",
+        barBlur: 2.0,
+        backgroundColor: Pallete.dangerColor,
+        snackPosition: SnackPosition.BOTTOM,
+        colorText: Colors.white,
+        icon: const Icon(
+          Icons.not_interested,
+          color: Colors.white,
+        ),
+      );
     }
   }
 
@@ -257,8 +274,7 @@ class _LoginPageState extends State<LoginPage> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     int? val = preferences.getInt("login");
     if (val != null) {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const HomePage()));
+      Get.offNamed(NameRoute.home);
     }
   }
 }
