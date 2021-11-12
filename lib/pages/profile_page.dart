@@ -31,39 +31,97 @@ class _ProfilePageState extends State<ProfilePage> {
     futureUser = UserService().getUser();
   }
 
-  Widget buildTextField(String labelText, String placeholder,
-      bool isPasswordTextField, bool enabled) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 35.0),
-      child: TextField(
-        enabled: enabled,
-        obscureText: isPasswordTextField ? showPassword : false,
-        decoration: InputDecoration(
-          suffixIcon: isPasswordTextField
-              ? IconButton(
-                  onPressed: () {
-                    setState(() {
-                      showPassword = !showPassword;
-                    });
-                  },
-                  icon: const Icon(
-                    Icons.remove_red_eye,
-                    color: Colors.grey,
-                  ),
-                )
-              : null,
-          contentPadding: const EdgeInsets.only(bottom: 3),
-          floatingLabelBehavior: FloatingLabelBehavior.always,
-          hintText: placeholder,
-          labelText: labelText,
-          hintStyle: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: Colors.grey[700],
+  Widget buildTextField(
+    IconData iconData,
+    String labelText,
+    String placeholder,
+    bool isPasswordTextField,
+    bool enabled,
+  ) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Expanded(
+          // wrap your Column in Expanded
+          flex: 1,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: Icon(
+              iconData,
+              color: Pallete.primaryColor,
+            ),
           ),
         ),
-      ),
+        Expanded(
+          flex: 5,
+          // wrap your Column in Expanded
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 35.0),
+            child: TextField(
+              enabled: enabled,
+              obscureText: isPasswordTextField ? showPassword : false,
+              decoration: InputDecoration(
+                suffixIcon: isPasswordTextField
+                    ? IconButton(
+                        onPressed: () {
+                          setState(() {
+                            showPassword = !showPassword;
+                          });
+                        },
+                        icon: const Icon(
+                          Icons.remove_red_eye,
+                          color: Colors.grey,
+                        ),
+                      )
+                    : null,
+                contentPadding: const EdgeInsets.only(bottom: 3),
+                floatingLabelBehavior: FloatingLabelBehavior.always,
+                hintText: placeholder,
+                labelText: labelText,
+                hintStyle: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey[700],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
+
+    // // return Padding(
+    //   padding: EdgeInsets.only(bottom: 35.0),
+    //   child: TextField(
+    //     enabled: enabled,
+    //     obscureText: isPasswordTextField ? showPassword : false,
+    //     decoration: InputDecoration(
+    //       suffixIcon: isPasswordTextField
+    //           ? IconButton(
+    //               onPressed: () {
+    //                 setState(() {
+    //                   showPassword = !showPassword;
+    //                 });
+    //               },
+    //               icon: const Icon(
+    //                 Icons.remove_red_eye,
+    //                 color: Colors.grey,
+    //               ),
+    //             )
+    //           : null,
+    //       contentPadding: const EdgeInsets.only(bottom: 3),
+    //       floatingLabelBehavior: FloatingLabelBehavior.always,
+    //       hintText: placeholder,
+    //       labelText: labelText,
+    //       hintStyle: TextStyle(
+    //         fontSize: 16,
+    //         fontWeight: FontWeight.bold,
+    //         color: Colors.grey[700],
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 
   @override
@@ -108,50 +166,50 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ))),
                           ),
                           Positioned(
-                              bottom: 0,
-                              right: 0,
-                              child: Container(
-                                height: 40,
-                                width: 40,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    width: 4,
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
-                                  ),
-                                  color: Pallete.primaryColor,
+                            bottom: 0,
+                            right: 0,
+                            child: Container(
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  width: 4,
+                                  color:
+                                      Theme.of(context).scaffoldBackgroundColor,
                                 ),
-                                child: const Icon(
-                                  Icons.edit,
-                                  color: Colors.white,
-                                ),
-                              )),
+                                color: Pallete.primaryColor,
+                              ),
+                              child: const Icon(
+                                Icons.edit,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),
                     const SizedBox(
                       height: 35,
                     ),
-                    buildTextField(
-                        "NIM", snapshot.data!.nim.toString(), false, false),
-                    buildTextField("Nama",
+                    buildTextField(Icons.account_circle_outlined, "NIM",
+                        snapshot.data!.nim.toString(), false, false),
+                    buildTextField(Icons.badge_outlined, "Nama",
                         snapshot.data!.namaMahasiswa.toString(), false, false),
-                    buildTextField(
-                        "Gender", snapshot.data!.jk.toString(), false, false),
-                    buildTextField("Jurusan",
+                    buildTextField(Icons.article_outlined, "Gender",
+                        snapshot.data!.jk.toString(), false, false),
+                    buildTextField(Icons.school_outlined, "Jurusan",
                         snapshot.data!.namaJurusan.toString(), false, false),
-                    buildTextField("Password", "******", true, true),
+                    buildTextField(Icons.lock_outline_rounded, "Password",
+                        "******", true, true),
                     buildTextField(
-                        "ID Smartphone",
+                        Icons.app_settings_alt_outlined,
+                        "ID Perangkat",
                         snapshot.data!.deviceId == null
                             ? "Perangkat belum terdaftar di sistem"
                             : "${snapshot.data!.deviceId}",
                         false,
                         false),
-                    const SizedBox(
-                      height: 35,
-                    ),
                     Container(
                       width: MediaQuery.of(context).size.width,
                       height: 50,
@@ -167,7 +225,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             child: Text(
                               "Simpan",
                               style:
-                                  TextStyle(fontSize: 20, color: Colors.white),
+                                  TextStyle(fontSize: 18, color: Colors.white),
                             ),
                           ),
                         ),
@@ -192,13 +250,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                 await SharedPreferences.getInstance();
                             preferences.clear();
 
-                            Get.offNamed(NameRoute.login);
+                            Get.offAllNamed(NameRoute.login);
                           },
                           child: const Center(
                             child: Text(
                               "Sign Out",
                               style:
-                                  TextStyle(fontSize: 20, color: Colors.white),
+                                  TextStyle(fontSize: 18, color: Colors.white),
                             ),
                           ),
                         ),

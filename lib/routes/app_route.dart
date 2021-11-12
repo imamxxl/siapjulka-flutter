@@ -18,5 +18,21 @@ class AppRoute {
       name: NameRoute.profil,
       page: () => const ProfilePage(),
     ),
+    GetPage(
+      name: NameRoute.dashboard,
+      page: () => const ProfilePage(),
+    ),
+    GetPage(
+      name: NameRoute.search,
+      page: () => const ProfilePage(),
+    ),
+    GetPage(
+      name: NameRoute.scan,
+      page: () => const ProfilePage(),
+    ),
+    GetPage(
+      name: NameRoute.laporan,
+      page: () => const ProfilePage(),
+    ),
   ];
 }

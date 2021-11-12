@@ -162,7 +162,7 @@ class _LoginPageState extends State<LoginPage> {
   void _checkLogin() async {
     if (passwordController.text.isNotEmpty &&
         usernameController.text.isNotEmpty) {
-      // // here ip for teathering smartphones
+      // here ip for teathering smartphones
       // var response = await http.post(
       //     Uri.parse("http://192.168.43.6:8000/api/login"),
       //     body: ({
@@ -170,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
       //       "password": passwordController.text
       //     }));
 
-      // // here ip for wifi
+      // here ip for wifi
       var response = await http.post(
           Uri.parse("http://192.168.100.162:8000/api/login"),
           body: ({
@@ -207,7 +207,7 @@ class _LoginPageState extends State<LoginPage> {
       } catch (e) {
         Get.snackbar(
           "Gagal!",
-          "Tidak dapat Menghubungkan']}",
+          "Tidak dapat Menghubungkan",
           barBlur: 2.0,
           backgroundColor: Pallete.dangerColor,
           snackPosition: SnackPosition.BOTTOM,
@@ -221,7 +221,7 @@ class _LoginPageState extends State<LoginPage> {
     } else {
       Get.snackbar(
         "Gagal!",
-        "Username dan Password harus diisi']}",
+        "Username dan Password harus diisi",
         barBlur: 2.0,
         backgroundColor: Pallete.dangerColor,
         snackPosition: SnackPosition.BOTTOM,

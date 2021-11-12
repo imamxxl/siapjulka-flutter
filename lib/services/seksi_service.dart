@@ -21,22 +21,17 @@ class UserService {
     }
   }
 
-  // Future<dynamic> getAPICall(String url, BuildContext context) async {
+  // Future<> getSeksiDetails() async {
   //   SharedPreferences preferences = await SharedPreferences.getInstance();
   //   int? id = preferences.getInt("login");
 
-  //   try {
-  //     final response = await http
-  //         .get(Uri.parse(url + "/user" + "$id"))
-  //         .timeout(const Duration(seconds: 10), onTimeout: () {
-  //       throw TimeoutException(
-  //           'The connection has timed out, Please try again!');
-  //     });
+  //   final response = await http.get(Uri.parse("$url/user/$id"));
+  //   final responseJson = json.decode(response.body);
 
-  //     print("Success");
-  //     return response;
-  //   } on SocketException {
-  //     print("You are not connected to internet");
-  //   }
+  //   setState(() {
+  //     for (Map user in responseJson) {
+  //       _userDetails.add(UserDetails.fromJson(user));
+  //     }
+  //   });
   // }
 }
