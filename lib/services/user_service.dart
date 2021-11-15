@@ -20,23 +20,4 @@ class UserService {
       throw Exception('Failed to load user');
     }
   }
-
-  // Future<dynamic> getAPICall(String url, BuildContext context) async {
-  //   SharedPreferences preferences = await SharedPreferences.getInstance();
-  //   int? id = preferences.getInt("login");
-
-  //   try {
-  //     final response = await http
-  //         .get(Uri.parse(url + "/user" + "$id"))
-  //         .timeout(const Duration(seconds: 10), onTimeout: () {
-  //       throw TimeoutException(
-  //           'The connection has timed out, Please try again!');
-  //     });
-
-  //     print("Success");
-  //     return response;
-  //   } on SocketException {
-  //     print("You are not connected to internet");
-  //   }
-  // }
 }

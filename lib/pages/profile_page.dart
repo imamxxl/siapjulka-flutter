@@ -26,8 +26,8 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    _getIdDevice();
-    _getIdUser();
+    getDeviceID();
+    getUserID();
     futureUser = UserService().getUser();
   }
 
@@ -90,38 +90,6 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ],
     );
-
-    // // return Padding(
-    //   padding: EdgeInsets.only(bottom: 35.0),
-    //   child: TextField(
-    //     enabled: enabled,
-    //     obscureText: isPasswordTextField ? showPassword : false,
-    //     decoration: InputDecoration(
-    //       suffixIcon: isPasswordTextField
-    //           ? IconButton(
-    //               onPressed: () {
-    //                 setState(() {
-    //                   showPassword = !showPassword;
-    //                 });
-    //               },
-    //               icon: const Icon(
-    //                 Icons.remove_red_eye,
-    //                 color: Colors.grey,
-    //               ),
-    //             )
-    //           : null,
-    //       contentPadding: const EdgeInsets.only(bottom: 3),
-    //       floatingLabelBehavior: FloatingLabelBehavior.always,
-    //       hintText: placeholder,
-    //       labelText: labelText,
-    //       hintStyle: TextStyle(
-    //         fontSize: 16,
-    //         fontWeight: FontWeight.bold,
-    //         color: Colors.grey[700],
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 
   @override
@@ -147,23 +115,25 @@ class _ProfilePageState extends State<ProfilePage> {
                             width: 130,
                             height: 130,
                             decoration: BoxDecoration(
-                                border: Border.all(
-                                    width: 4,
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor),
-                                boxShadow: [
-                                  BoxShadow(
-                                      spreadRadius: 2,
-                                      blurRadius: 10,
-                                      color: Colors.black.withOpacity(0.1),
-                                      offset: const Offset(0, 10))
-                                ],
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image: NetworkImage(
-                                      "http://192.168.100.162:8000/avatar/${snapshot.data!.avatar.toString()}",
-                                    ))),
+                              border: Border.all(
+                                  width: 4,
+                                  color: Theme.of(context)
+                                      .scaffoldBackgroundColor),
+                              boxShadow: [
+                                BoxShadow(
+                                    spreadRadius: 2,
+                                    blurRadius: 10,
+                                    color: Colors.black.withOpacity(0.1),
+                                    offset: const Offset(0, 10))
+                              ],
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                  "http://192.168.100.162:8000/avatar/${snapshot.data!.avatar.toString()}",
+                                ),
+                              ),
+                            ),
                           ),
                           Positioned(
                             bottom: 0,
@@ -203,13 +173,14 @@ class _ProfilePageState extends State<ProfilePage> {
                     buildTextField(Icons.lock_outline_rounded, "Password",
                         "******", true, true),
                     buildTextField(
-                        Icons.app_settings_alt_outlined,
-                        "ID Perangkat",
-                        snapshot.data!.deviceId == null
-                            ? "Perangkat belum terdaftar di sistem"
-                            : "${snapshot.data!.deviceId}",
-                        false,
-                        false),
+                      Icons.app_settings_alt_outlined,
+                      "ID Perangkat",
+                      snapshot.data!.deviceId == null
+                          ? "Perangkat belum terdaftar di sistem"
+                          : "${snapshot.data!.deviceId}",
+                      false,
+                      false,
+                    ),
                     Container(
                       width: MediaQuery.of(context).size.width,
                       height: 50,
@@ -276,7 +247,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Future<void> _getIdDevice() async {
+  Future<void> getDeviceID() async {
     final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
     try {
       if (Platform.isAndroid) {
@@ -292,15 +263,22 @@ class _ProfilePageState extends State<ProfilePage> {
         }); //UUID for iOS
       }
     } on PlatformException {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: const Text("Failed get Id Device"),
-        backgroundColor: Colors.red[500],
-        duration: const Duration(milliseconds: 2000),
-      ));
+      Get.snackbar(
+        "Gagal",
+        "Failed get Id Device",
+        barBlur: 2.0,
+        backgroundColor: Pallete.dangerColor,
+        snackPosition: SnackPosition.BOTTOM,
+        colorText: Colors.white,
+        icon: const Icon(
+          Icons.not_interested,
+          color: Colors.white,
+        ),
+      );
     }
   }
 
-  Future<void> _getIdUser() async {
+  Future<void> getUserID() async {
     // here we are get id user from login
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {

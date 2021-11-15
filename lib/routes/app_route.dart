@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:siapjulka/pages/dashboard_page.dart';
 import 'package:siapjulka/pages/home_page.dart';
 import 'package:siapjulka/pages/login_page.dart';
 import 'package:siapjulka/pages/profile_page.dart';
@@ -20,7 +21,7 @@ class AppRoute {
     ),
     GetPage(
       name: NameRoute.dashboard,
-      page: () => const ProfilePage(),
+      page: () => const DashboardPage(),
     ),
     GetPage(
       name: NameRoute.search,

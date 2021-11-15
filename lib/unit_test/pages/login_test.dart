@@ -1,34 +1,16 @@
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+// import 'package:http/http.dart';
 import 'package:siapjulka/constant/pallete_color.dart';
-import 'package:http/http.dart' as http;
+import 'package:siapjulka/unit_test/controller/login_controller.dart';
 import 'package:siapjulka/controllers/users/user_controller.dart';
-import 'package:siapjulka/routes/name_route.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key, this.title}) : super(key: key);
-
-  final String? title;
-
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  var usernameController = TextEditingController();
-  var passwordController = TextEditingController();
-
-  int _state = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _checkInfoLogin();
-  }
+class LoginTest extends StatelessWidget {
+  LoginTest({Key? key}) : super(key: key);
+  // final loginController = Get.find<LoginController>();
+  // final userController = Get.find<UserController>();
+  final loginController = Get.put(LoginController());
+  final userController = Get.put(UserController());
 
   Widget _logoIcon() {
     return const Image(
@@ -64,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TextField(
-            controller: usernameController,
+            controller: loginController.usernameController,
             style: const TextStyle(fontSize: 18),
             decoration: const InputDecoration(
               border: InputBorder.none,
@@ -83,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       child: TextFormField(
-        controller: passwordController,
+        controller: loginController.passwordController,
         obscureText: isPassword,
         style: const TextStyle(fontSize: 18),
         decoration: const InputDecoration(
@@ -108,7 +90,7 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _submitButton() {
     return Container(
-      width: MediaQuery.of(context).size.width,
+      // width: MediaQuery.of(context).size.width,
       height: 50,
       decoration: BoxDecoration(
         color: Pallete.primaryColor,
@@ -118,9 +100,14 @@ class _LoginPageState extends State<LoginPage> {
         child: InkWell(
           splashColor: Pallete.primaryColor[200],
           onTap: () {
-            _checkLogin();
+            // userController.checkLogin;
           },
-          child: setUpButtonChild(),
+          child: const Center(
+              child: Text(
+            "Sign In",
+            style: TextStyle(fontSize: 20, color: Colors.white),
+          )),
+          // child: setUpButtonChild(),
         ),
       ),
     );
@@ -158,86 +145,5 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
-  }
-
-  void _checkLogin() async {
-    if (passwordController.text.isNotEmpty &&
-        usernameController.text.isNotEmpty) {
-      var response = await http.post(
-          // here ip for teathering smartphones
-          //  Uri.parse("http://192.168.43.6:8000/api/login"),
-
-          // here ip for wifi
-          Uri.parse("http://192.168.100.162:8000/api/login"),
-          body: ({
-            "username": usernameController.text,
-            "password": passwordController.text
-          }));
-
-      try {
-        if (response.statusCode == 200) {
-          setState(() {
-            if (_state == 0) {
-              animateButton();
-            }
-          });
-          final body = jsonDecode(response.body);
-          SharedPreferences preferences = await SharedPreferences.getInstance();
-          await preferences.setInt("login", body["id"]);
-          Get.offAllNamed(NameRoute.home);
-        } else {
-          final body = jsonDecode(response.body);
-          UserController().snackbarError("${body['message']}");
-        }
-      } catch (e) {
-        UserController().snackbarError("Tidak dapat Menghubungkan");
-      }
-    } else {
-      UserController().snackbarError("Username dan Password harus diisi");
-    }
-  }
-
-  Widget setUpButtonChild() {
-    if (_state == 0) {
-      return const Center(
-        child: Text(
-          "Sign In",
-          style: TextStyle(fontSize: 20, color: Colors.white),
-        ),
-      );
-    } else if (_state == 1) {
-      return const Center(
-        child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-        ),
-      );
-    } else {
-      return const Icon(
-        Icons.check,
-        color: Colors.white,
-        size: 40,
-      );
-    }
-  }
-
-  void animateButton() {
-    setState(() {
-      _state = 1;
-    });
-
-    Timer(const Duration(milliseconds: 1500), () {
-      setState(() {
-        _state = 2;
-      });
-    });
-  }
-
-  void _checkInfoLogin() async {
-    // Here we check if user already login or id already available or not
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    int? val = preferences.getInt("login");
-    if (val != null) {
-      Get.offNamed(NameRoute.home);
-    }
   }
 }

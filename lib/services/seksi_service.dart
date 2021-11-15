@@ -20,18 +20,4 @@ class UserService {
       throw Exception('Failed to load user');
     }
   }
-
-  // Future<> getSeksiDetails() async {
-  //   SharedPreferences preferences = await SharedPreferences.getInstance();
-  //   int? id = preferences.getInt("login");
-
-  //   final response = await http.get(Uri.parse("$url/user/$id"));
-  //   final responseJson = json.decode(response.body);
-
-  //   setState(() {
-  //     for (Map user in responseJson) {
-  //       _userDetails.add(UserDetails.fromJson(user));
-  //     }
-  //   });
-  // }
 }
