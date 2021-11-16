@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:siapjulka/constant/pallete_color.dart';
 
-class UserController extends GetxController {
+class HelperController extends GetxController {
   void snackbarError(String message) {
     Get.snackbar(
       "Gagal",
@@ -14,6 +14,21 @@ class UserController extends GetxController {
       colorText: Colors.white,
       icon: const Icon(
         Icons.not_interested,
+        color: Colors.white,
+      ),
+    );
+  }
+
+  void snackbarSuccess(String message) {
+    Get.snackbar(
+      "Sukses",
+      message,
+      barBlur: 2.0,
+      backgroundColor: Pallete.lightSuccessColor[100],
+      snackPosition: SnackPosition.BOTTOM,
+      colorText: Colors.white,
+      icon: const Icon(
+        Icons.verified_outlined,
         color: Colors.white,
       ),
     );

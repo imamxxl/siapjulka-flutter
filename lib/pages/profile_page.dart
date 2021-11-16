@@ -1,11 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:siapjulka/constant/pallete_color.dart';
-import 'package:device_info/device_info.dart';
-import 'package:flutter/services.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:siapjulka/models/user.dart';
 import 'package:siapjulka/routes/name_route.dart';
 import 'package:siapjulka/services/user_service.dart';
@@ -19,14 +17,12 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   bool showPassword = false;
-  String identifier = '';
   int id = 0;
   late Future<User> futureUser;
 
   @override
   void initState() {
     super.initState();
-    getDeviceID();
     getUserID();
     futureUser = UserService().getUser();
   }
@@ -245,37 +241,6 @@ class _ProfilePageState extends State<ProfilePage> {
         },
       ),
     );
-  }
-
-  Future<void> getDeviceID() async {
-    final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-    try {
-      if (Platform.isAndroid) {
-        var build = await deviceInfoPlugin.androidInfo;
-        setState(() {
-          identifier = build.androidId;
-        });
-        //UUID for Android
-      } else if (Platform.isIOS) {
-        var data = await deviceInfoPlugin.iosInfo;
-        setState(() {
-          identifier = data.identifierForVendor;
-        }); //UUID for iOS
-      }
-    } on PlatformException {
-      Get.snackbar(
-        "Gagal",
-        "Failed get Id Device",
-        barBlur: 2.0,
-        backgroundColor: Pallete.dangerColor,
-        snackPosition: SnackPosition.BOTTOM,
-        colorText: Colors.white,
-        icon: const Icon(
-          Icons.not_interested,
-          color: Colors.white,
-        ),
-      );
-    }
   }
 
   Future<void> getUserID() async {

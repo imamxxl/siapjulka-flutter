@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:siapjulka/constant/pallete_color.dart';
 import 'package:http/http.dart' as http;
-import 'package:siapjulka/controllers/users/user_controller.dart';
+import 'package:siapjulka/controllers/helper/helper_controller.dart';
 import 'package:siapjulka/routes/name_route.dart';
 
 class LoginPage extends StatefulWidget {
@@ -187,13 +187,13 @@ class _LoginPageState extends State<LoginPage> {
           Get.offAllNamed(NameRoute.home);
         } else {
           final body = jsonDecode(response.body);
-          UserController().snackbarError("${body['message']}");
+          HelperController().snackbarError("${body['message']}");
         }
       } catch (e) {
-        UserController().snackbarError("Tidak dapat Menghubungkan");
+        HelperController().snackbarError("Tidak dapat Menghubungkan");
       }
     } else {
-      UserController().snackbarError("Username dan Password harus diisi");
+      HelperController().snackbarError("Username dan Password harus diisi");
     }
   }
 
