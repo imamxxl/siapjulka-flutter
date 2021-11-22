@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:siapjulka/pages/dashboard_page.dart';
+import 'package:siapjulka/pages/dashboard/dashboard_page.dart';
 import 'package:siapjulka/pages/home_page.dart';
 import 'package:siapjulka/pages/login_page.dart';
 import 'package:siapjulka/pages/profile_page.dart';

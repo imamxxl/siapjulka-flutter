@@ -6,7 +6,8 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:siapjulka/constant/pallete_color.dart';
 import 'package:http/http.dart' as http;
-import 'package:siapjulka/controllers/helper/helper_controller.dart';
+import 'package:siapjulka/helper/snakcbar_helper.dart';
+import 'package:siapjulka/network/domain.dart';
 import 'package:siapjulka/routes/name_route.dart';
 
 class LoginPage extends StatefulWidget {
@@ -165,10 +166,10 @@ class _LoginPageState extends State<LoginPage> {
         usernameController.text.isNotEmpty) {
       var response = await http.post(
           // here ip for teathering smartphones
-          //  Uri.parse("http://192.168.43.6:8000/api/login"),
+          Uri.parse(Domain().baseUrl + "/login"),
 
-          // here ip for wifi
-          Uri.parse("http://192.168.100.162:8000/api/login"),
+          // // here ip for wifi
+          // Uri.parse("http://192.168.100.162:8000/api/login"),
           body: ({
             "username": usernameController.text,
             "password": passwordController.text
@@ -187,13 +188,13 @@ class _LoginPageState extends State<LoginPage> {
           Get.offAllNamed(NameRoute.home);
         } else {
           final body = jsonDecode(response.body);
-          HelperController().snackbarError("${body['message']}");
+          SnackbarHelper().snackbarError("${body['message']}");
         }
       } catch (e) {
-        HelperController().snackbarError("Tidak dapat Menghubungkan");
+        SnackbarHelper().snackbarError("Tidak dapat Menghubungkan");
       }
     } else {
-      HelperController().snackbarError("Username dan Password harus diisi");
+      SnackbarHelper().snackbarError("Username dan Password harus diisi");
     }
   }
 

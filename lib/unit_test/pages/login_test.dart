@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 // import 'package:http/http.dart';
 import 'package:siapjulka/constant/pallete_color.dart';
-import 'package:siapjulka/controllers/helper/helper_controller.dart';
+import 'package:siapjulka/controllers/base_controller.dart';
 import 'package:siapjulka/unit_test/controller/login_controller.dart';
 
 class LoginTest extends StatelessWidget {
@@ -10,7 +10,7 @@ class LoginTest extends StatelessWidget {
   // final loginController = Get.find<LoginController>();
   // final userController = Get.find<UserController>();
   final loginController = Get.put(LoginController());
-  final userController = Get.put(HelperController());
+  final userController = Get.put(BaseController());
 
   Widget _logoIcon() {
     return const Image(

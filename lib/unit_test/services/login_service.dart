@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:siapjulka/controllers/helper/helper_controller.dart';
+import 'package:siapjulka/helper/snakcbar_helper.dart';
 import 'package:siapjulka/routes/name_route.dart';
 
 class LoginService {
@@ -37,10 +37,10 @@ class LoginService {
         Get.offAllNamed(NameRoute.home);
       } else {
         final body = jsonDecode(response.body);
-        HelperController().snackbarError("${body['message']}");
+        SnackbarHelper().snackbarError("${body['message']}");
       }
     } catch (e) {
-      HelperController().snackbarError("Tidak dapat menghubungkan");
+      SnackbarHelper().snackbarError("Tidak dapat menghubungkan");
     }
   }
 }

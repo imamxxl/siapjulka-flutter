@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:siapjulka/constant/pallete_color.dart';
 import 'package:siapjulka/models/user.dart';
-import 'package:siapjulka/pages/dashboard_page.dart';
+import 'package:siapjulka/network/domain.dart';
+import 'package:siapjulka/pages/dashboard/dashboard_page.dart';
 import 'package:siapjulka/routes/name_route.dart';
 import 'package:siapjulka/services/user_service.dart';
 
@@ -66,7 +67,8 @@ class _NavPageState extends State<NavPage> {
                       shape: BoxShape.circle,
                       image: DecorationImage(
                         image: NetworkImage(
-                          "http://192.168.100.162:8000/avatar/${snapshot.data!.avatar.toString()}",
+                          Domain().imageUrl +
+                              "/avatar/${snapshot.data!.avatar.toString()}",
                         ),
                       ),
                     ),

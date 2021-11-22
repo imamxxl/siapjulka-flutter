@@ -1,32 +1,37 @@
+// To parse this JSON data, do
+//
+//     final test = testFromJson(jsonString);
+
+import 'package:meta/meta.dart';
 import 'dart:convert';
 
-User userFromJson(String str) => User.fromJson(json.decode(str));
+Test testFromJson(String str) => Test.fromJson(json.decode(str));
 
-String userToJson(User data) => json.encode(data.toJson());
+String testToJson(Test data) => json.encode(data.toJson());
 
-class User {
-  User({
-    this.nim,
-    this.tahun,
-    this.userId,
-    this.namaMahasiswa,
-    this.kodeJurusan,
-    this.kodeGrup,
-    this.imeiMahasiswa,
-    this.createdAt,
-    this.updatedAt,
-    this.namaJurusan,
-    this.status,
-    this.id,
-    this.username,
-    this.nama,
-    this.jk,
-    this.emailVerifiedAt,
-    this.password,
-    this.level,
-    this.avatar,
-    this.imei,
-    this.rememberToken,
+class Test {
+  Test({
+    @required this.nim,
+    @required this.tahun,
+    @required this.userId,
+    @required this.namaMahasiswa,
+    @required this.kodeJurusan,
+    @required this.kodeGrup,
+    @required this.imeiMahasiswa,
+    @required this.createdAt,
+    @required this.updatedAt,
+    @required this.namaJurusan,
+    @required this.status,
+    @required this.id,
+    @required this.username,
+    @required this.nama,
+    @required this.jk,
+    @required this.emailVerifiedAt,
+    @required this.password,
+    @required this.level,
+    @required this.avatar,
+    @required this.imei,
+    @required this.rememberToken,
   });
 
   String? nim;
@@ -51,7 +56,7 @@ class User {
   String? imei;
   dynamic rememberToken;
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
+  factory Test.fromJson(Map<String, dynamic> json) => Test(
         nim: json["nim"],
         tahun: json["tahun"],
         userId: json["user_id"],

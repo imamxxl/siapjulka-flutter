@@ -5,7 +5,9 @@ import 'package:siapjulka/constant/pallete_color.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:siapjulka/models/user.dart';
+import 'package:siapjulka/network/domain.dart';
 import 'package:siapjulka/routes/name_route.dart';
+// import 'package:siapjulka/unit_test/controller/user_controller.dart';
 import 'package:siapjulka/services/user_service.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -126,7 +128,8 @@ class _ProfilePageState extends State<ProfilePage> {
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
-                                  "http://192.168.100.162:8000/avatar/${snapshot.data!.avatar.toString()}",
+                                  Domain().imageUrl +
+                                      "/avatar/${snapshot.data!.avatar.toString()}",
                                 ),
                               ),
                             ),
@@ -171,9 +174,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     buildTextField(
                       Icons.app_settings_alt_outlined,
                       "ID Perangkat",
-                      snapshot.data!.deviceId == null
+                      snapshot.data!.imei == null
                           ? "Perangkat belum terdaftar di sistem"
-                          : "${snapshot.data!.deviceId}",
+                          : "${snapshot.data!.imei}",
                       false,
                       false,
                     ),

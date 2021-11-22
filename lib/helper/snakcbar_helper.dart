@@ -1,9 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:siapjulka/constant/pallete_color.dart';
 
-class HelperController extends GetxController {
+class SnackbarHelper {
+  // Snackbar
   void snackbarError(String message) {
     Get.snackbar(
       "Gagal",

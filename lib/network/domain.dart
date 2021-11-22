@@ -1,0 +1,30 @@
+import 'package:http/http.dart' as http;
+
+class Domain {
+  // ip debug with wifi
+  String baseUrl = 'http://192.168.100.162:8000/api';
+  String imageUrl = 'http://192.168.100.162:8000';
+
+  // // ip debug with tethering samsung j6
+  // String baseUrl = 'http://192.168.43.6:8000/api';
+  // String imageUrl = 'http://192.168.43.6:8000';
+
+  static const int timeOutDuration = 20;
+
+  final String? url;
+  final dynamic body;
+
+  Domain({this.url, this.body});
+
+  Future<http.Response> post() {
+    return http
+        .post(Uri.parse(baseUrl + url!), body: body)
+        .timeout(const Duration(seconds: timeOutDuration));
+  }
+
+  Future<http.Response> get() {
+    return http
+        .get(Uri.parse(baseUrl + url!))
+        .timeout(const Duration(seconds: timeOutDuration));
+  }
+}

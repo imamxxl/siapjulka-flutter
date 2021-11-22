@@ -4,12 +4,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:siapjulka/models/user.dart';
-import 'package:siapjulka/pages/profile_page.dart';
+import 'package:siapjulka/network/domain.dart';
 
 class UserService {
-  final profilPage = const ProfilePage();
-
-  final String url = "http://192.168.100.162:8000/api";
+  final String url = Domain().baseUrl;
 
   // get user berdasarkan preference id
   Future<User> getUser() async {

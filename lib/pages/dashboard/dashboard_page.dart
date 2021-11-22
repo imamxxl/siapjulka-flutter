@@ -4,13 +4,19 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:siapjulka/constant/pallete_color.dart';
-import 'package:siapjulka/controllers/helper/helper_controller.dart';
+import 'package:siapjulka/controllers/user_controller.dart';
+import 'package:siapjulka/controllers/seksi_controller.dart';
+import 'package:siapjulka/controllers/test_controller.dart';
+import 'package:siapjulka/helper/snakcbar_helper.dart';
 import 'package:siapjulka/models/user.dart';
+import 'package:siapjulka/network/domain.dart';
+import 'package:siapjulka/pages/dashboard/seksi_widget.dart';
 import 'package:siapjulka/routes/name_route.dart';
-import 'package:siapjulka/services/user_service.dart';
 import 'package:get/get.dart';
 import 'package:device_info/device_info.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:siapjulka/services/user_service.dart';
 import 'package:http/http.dart' as http;
 
 class DashboardPage extends StatefulWidget {
@@ -24,6 +30,9 @@ class _DashboardPageState extends State<DashboardPage> {
   late Future<User> futureUser;
   String identifier = '';
   bool visibility = false;
+
+  final SeksiController seksiController = Get.put(SeksiController());
+  final UserController userController = Get.put(UserController());
 
   @override
   void initState() {
@@ -39,36 +48,27 @@ class _DashboardPageState extends State<DashboardPage> {
       children: [
         Container(
           alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.all(10),
-          child: FutureBuilder<User>(
-            future: futureUser,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    const Text(
-                      'Hai,',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: Colors.black54,
-                      ),
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              const Text(
+                'Hai,',
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.black54,
+                ),
+              ),
+              const SizedBox(height: 5),
+              Obx(() => Text(
+                    '${userController.listUser.value.nama}',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      color: Pallete.primaryColor,
                     ),
-                    const SizedBox(height: 5),
-                    Text(
-                      snapshot.data!.namaMahasiswa.toString(),
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        color: Pallete.primaryColor,
-                      ),
-                    )
-                  ],
-                );
-              } else {
-                return const Center(child: CircularProgressIndicator());
-              }
-            },
+                  ))
+            ],
           ),
         ),
       ],
@@ -178,7 +178,7 @@ class _DashboardPageState extends State<DashboardPage> {
       future: futureUser,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          snapshot.data!.deviceId == null
+          snapshot.data!.imei == null
               ? deviceID(visibility = true)
               : deviceID(visibility = false);
         } else if (snapshot.hasError) {
@@ -189,12 +189,105 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return ListView(children: [
-      checkDeviceID(visibility),
-      welcomeUsers(),
-    ]);
+  Widget buttonGetData() {
+    final controller = TestController();
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: 50,
+        decoration: BoxDecoration(
+          color: Pallete.successColor,
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            splashColor: Pallete.successColor[200],
+            onTap: () async {
+              controller.getData();
+            },
+            child: const Center(
+              child: Text(
+                "Get Data",
+                style: TextStyle(fontSize: 20, color: Colors.white),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buttonPostData() {
+    final controller = TestController();
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: 50,
+        decoration: BoxDecoration(
+          color: Pallete.successColor,
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            splashColor: Pallete.successColor[200],
+            onTap: () async {
+              controller.postData();
+            },
+            child: const Center(
+              child: Text(
+                "Post Data",
+                style: TextStyle(fontSize: 20, color: Colors.white),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget searchBar() {
+    return Container(
+      margin: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 5.0),
+      child: TextFormField(
+        // controller: passwordController,
+        style: const TextStyle(fontSize: 18),
+        decoration: const InputDecoration(
+          border: InputBorder.none,
+          filled: true,
+          fillColor: Color(0xfff3f3f4),
+          hintText: "Cari  kelas?",
+          suffixIcon: Icon(Icons.search),
+        ),
+      ),
+    );
+  }
+
+  Widget gridView() {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 5.0),
+        child: Obx(
+          () => StaggeredGridView.countBuilder(
+            staggeredTileBuilder: (index) => const StaggeredTile.fit(2),
+            crossAxisCount: 2,
+            itemCount: seksiController.dataSeksi.length,
+            crossAxisSpacing: 2,
+            mainAxisSpacing: 2,
+            itemBuilder: (context, index) {
+              return SeksiWidget(seksiController.dataSeksi[index]);
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _pullRefresh() async {
+    seksiController.get();
+    userController.get();
+    futureUser = UserService().getUser();
   }
 
   Future<void> getDeviceID() async {
@@ -213,14 +306,14 @@ class _DashboardPageState extends State<DashboardPage> {
         }); // UUID for iOS
       }
     } on PlatformException {
-      HelperController().snackbarError("ID Perangkat tidak ditemukan");
+      SnackbarHelper().snackbarError("ID Perangkat tidak ditemukan");
     }
   }
 
   // post data perangkat ke dalam sistem
   Future<void> postDeviceID() async {
     try {
-      const String url = "http://192.168.100.162:8000/api";
+      String url = Domain().baseUrl;
       SharedPreferences preferences = await SharedPreferences.getInstance();
       int? id = preferences.getInt("login");
       final response = await http.post(
@@ -233,9 +326,26 @@ class _DashboardPageState extends State<DashboardPage> {
         }),
       );
       final body = jsonDecode(response.body);
-      HelperController().snackbarSuccess("${body['message']}");
+      SnackbarHelper().snackbarSuccess("${body['message']}");
     } catch (e) {
-      HelperController().snackbarError("Maaf Terjadi kesalahan");
+      SnackbarHelper().snackbarError("Maaf Terjadi kesalahan");
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(children: [
+      RefreshIndicator(
+        onRefresh: _pullRefresh,
+        child: Column(children: [
+          checkDeviceID(visibility),
+          welcomeUsers(),
+          searchBar(),
+          // buttonGetData(),
+          // buttonPostData(),
+          gridView(),
+        ]),
+      ),
+    ]);
   }
 }
