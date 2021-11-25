@@ -33,4 +33,19 @@ class SnackbarHelper {
       ),
     );
   }
+
+  void snackbarWarning(String message) {
+    Get.snackbar(
+      "Maaf",
+      message,
+      barBlur: 2.0,
+      backgroundColor: Pallete.lightWarningColor[50],
+      snackPosition: SnackPosition.BOTTOM,
+      colorText: Colors.white,
+      icon: const Icon(
+        Icons.info_outline_rounded,
+        color: Colors.white,
+      ),
+    );
+  }
 }

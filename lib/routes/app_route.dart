@@ -23,6 +23,10 @@ class AppRoute {
       name: NameRoute.dashboard,
       page: () => const DashboardPage(),
     ),
+    // GetPage(
+    //   name: NameRoute.pertemuan + ':/idSeksi?',
+    //   page: () => PertemuanPage()),
+    // ),
     GetPage(
       name: NameRoute.search,
       page: () => const ProfilePage(),

@@ -48,7 +48,7 @@ class _DashboardPageState extends State<DashboardPage> {
       children: [
         Container(
           alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(10),
           child: Column(
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,11 +81,11 @@ class _DashboardPageState extends State<DashboardPage> {
       child: Card(
         child: Container(
           alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(8),
           child: Row(
             children: <Widget>[
               Expanded(
-                flex: 4,
+                flex: 2,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,7 +108,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     ),
                     const SizedBox(height: 10),
                     Container(
-                      width: MediaQuery.of(context).size.width * 0.3,
+                      width: 150,
                       height: 30,
                       decoration: BoxDecoration(
                         color: Pallete.warningColor,
@@ -190,6 +190,7 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   Widget buttonGetData() {
+    // final pcontroller = PertemuanController();
     final controller = TestController();
     return Padding(
       padding: const EdgeInsets.all(10),
@@ -249,7 +250,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
   Widget searchBar() {
     return Container(
-      margin: const EdgeInsets.only(left: 10.0, right: 10.0, bottom: 5.0),
+      margin: const EdgeInsets.all(8),
       child: TextFormField(
         // controller: passwordController,
         style: const TextStyle(fontSize: 18),
@@ -257,7 +258,7 @@ class _DashboardPageState extends State<DashboardPage> {
           border: InputBorder.none,
           filled: true,
           fillColor: Color(0xfff3f3f4),
-          hintText: "Cari  kelas?",
+          hintText: "Cari kelas...",
           suffixIcon: Icon(Icons.search),
         ),
       ),
@@ -265,22 +266,26 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   Widget gridView() {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 5.0),
-        child: Obx(
-          () => StaggeredGridView.countBuilder(
-            staggeredTileBuilder: (index) => const StaggeredTile.fit(2),
-            crossAxisCount: 2,
-            itemCount: seksiController.dataSeksi.length,
-            crossAxisSpacing: 2,
-            mainAxisSpacing: 2,
-            itemBuilder: (context, index) {
-              return SeksiWidget(seksiController.dataSeksi[index]);
-            },
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(4),
+          child: Obx(
+            () => StaggeredGridView.countBuilder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              staggeredTileBuilder: (index) => const StaggeredTile.fit(2),
+              crossAxisCount: 2,
+              itemCount: seksiController.dataSeksi.length,
+              crossAxisSpacing: 2,
+              mainAxisSpacing: 2,
+              itemBuilder: (context, index) {
+                return SeksiWidget(seksiController.dataSeksi[index]);
+              },
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 
@@ -334,18 +339,16 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      RefreshIndicator(
-        onRefresh: _pullRefresh,
-        child: Column(children: [
-          checkDeviceID(visibility),
-          welcomeUsers(),
-          searchBar(),
-          // buttonGetData(),
-          // buttonPostData(),
-          gridView(),
-        ]),
-      ),
-    ]);
+    return RefreshIndicator(
+      onRefresh: _pullRefresh,
+      child: ListView(children: [
+        checkDeviceID(visibility),
+        welcomeUsers(),
+        searchBar(),
+        // buttonGetData(),
+        // buttonPostData(),
+        gridView(),
+      ]),
+    );
   }
 }

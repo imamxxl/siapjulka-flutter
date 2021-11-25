@@ -6,4 +6,5 @@ abstract class NameRoute {
   static const search = '/search';
   static const scan = '/scan';
   static const laporan = '/laporan';
+  // static const pertemuan = '/pertemuan';
 }

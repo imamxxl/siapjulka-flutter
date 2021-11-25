@@ -13,8 +13,9 @@ class Domain {
 
   final String? url;
   final dynamic body;
+  final dynamic parameter;
 
-  Domain({this.url, this.body});
+  Domain({this.url, this.body, this.parameter});
 
   Future<http.Response> post() {
     return http
@@ -25,6 +26,12 @@ class Domain {
   Future<http.Response> get() {
     return http
         .get(Uri.parse(baseUrl + url!))
+        .timeout(const Duration(seconds: timeOutDuration));
+  }
+
+  Future<http.Response> getparameter() {
+    return http
+        .get(Uri.parse(baseUrl + url! + parameter))
         .timeout(const Duration(seconds: timeOutDuration));
   }
 }

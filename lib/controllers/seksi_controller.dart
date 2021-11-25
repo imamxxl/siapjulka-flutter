@@ -11,6 +11,7 @@ import 'package:siapjulka/network/domain.dart';
 
 class SeksiController extends GetxController with BaseController {
   var dataSeksi = <Seksi>[].obs;
+  Map<String, dynamic>? body;
 
   @override
   void onInit() {
@@ -28,7 +29,7 @@ class SeksiController extends GetxController with BaseController {
         List jsonResponse = jsonDecode(value.body);
         dataSeksi.value = jsonResponse.map((e) => Seksi.fromJson(e)).toList();
       } else {
-        SnackbarHelper().snackbarError('Backend Error');
+        SnackbarHelper().snackbarError('Tidak dapat menemukan data');
       }
     }).catchError((error) {
       if (error is BadRequestException) {
