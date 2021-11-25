@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:siapjulka/constant/pallete_color.dart';
+import 'package:siapjulka/controllers/pertemuan_controller.dart';
 import 'package:siapjulka/controllers/user_controller.dart';
 import 'package:siapjulka/controllers/seksi_controller.dart';
 import 'package:siapjulka/controllers/test_controller.dart';
@@ -33,6 +34,8 @@ class _DashboardPageState extends State<DashboardPage> {
 
   final SeksiController seksiController = Get.put(SeksiController());
   final UserController userController = Get.put(UserController());
+  final PertemuanController pertemuanController =
+      Get.put(PertemuanController());
 
   @override
   void initState() {
@@ -62,7 +65,7 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
               const SizedBox(height: 5),
               Obx(() => Text(
-                    '${userController.listUser.value.nama}',
+                    '${userController.dataUser.value.nama}',
                     style: TextStyle(
                       fontSize: 18.0,
                       color: Pallete.primaryColor,

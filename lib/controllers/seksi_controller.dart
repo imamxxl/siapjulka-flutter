@@ -6,7 +6,7 @@ import 'package:siapjulka/controllers/base_controller.dart';
 import 'package:siapjulka/helper/app_exceptions.dart';
 import 'package:siapjulka/helper/dialog_helper.dart';
 import 'package:siapjulka/helper/snakcbar_helper.dart';
-import 'package:siapjulka/models/seksi.dart';
+import 'package:siapjulka/models/seksi/seksi_list.dart';
 import 'package:siapjulka/network/domain.dart';
 
 class SeksiController extends GetxController with BaseController {
@@ -24,12 +24,14 @@ class SeksiController extends GetxController with BaseController {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     int? id = preferences.getInt("login");
     Domain response = Domain(url: '/participant/$id');
+
     await response.get().then((value) {
       if (value.statusCode == 200) {
         List jsonResponse = jsonDecode(value.body);
         dataSeksi.value = jsonResponse.map((e) => Seksi.fromJson(e)).toList();
       } else {
-        SnackbarHelper().snackbarError('Tidak dapat menemukan data');
+        SnackbarHelper().snackbarWarning('Maaf, anda belum memiliki kelas');
+        // SnackbarHelper().snackbarError('');
       }
     }).catchError((error) {
       if (error is BadRequestException) {

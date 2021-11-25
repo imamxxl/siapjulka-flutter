@@ -1,3 +1,7 @@
+// To parse this JSON data, do
+//
+//     final pertemuan = pertemuanFromJson(jsonString);
+
 import 'package:meta/meta.dart';
 import 'dart:convert';
 
@@ -9,67 +13,83 @@ String pertemuanToJson(List<Pertemuan> data) =>
 
 class Pertemuan {
   Pertemuan({
-    @required this.idAbsensi,
+    @required this.kodeSeksi,
+    @required this.kodeJurusan,
+    @required this.kodeMk,
+    @required this.kodeDosen,
+    @required this.kodeRuang,
+    @required this.hari,
+    @required this.jadwalMulai,
+    @required this.jadwalSelesai,
+    @required this.status,
     @required this.idPertemuan,
-    @required this.idSeksi,
-    @required this.idUser,
     @required this.imeiAbsensi,
-    @required this.qrcode,
-    @required this.qrcodeImage,
     @required this.keterangan,
     @required this.catatan,
     @required this.verifikasi,
-    @required this.createdAt,
-    @required this.updatedAt,
+    @required this.namaMk,
+    @required this.sks,
     @required this.tanggal,
     @required this.materi,
   });
 
-  int? idAbsensi;
+  String? kodeSeksi;
+  String? kodeJurusan;
+  String? kodeMk;
+  String? kodeDosen;
+  String? kodeRuang;
+  String? hari;
+  String? jadwalMulai;
+  String? jadwalSelesai;
+  int? status;
   int? idPertemuan;
-  int? idSeksi;
-  int? idUser;
   dynamic imeiAbsensi;
-  String? qrcode;
-  String? qrcodeImage;
   String? keterangan;
   String? catatan;
   int? verifikasi;
-  DateTime? createdAt;
-  DateTime? updatedAt;
+  String? namaMk;
+  String? sks;
   DateTime? tanggal;
   String? materi;
 
   factory Pertemuan.fromJson(Map<String, dynamic> json) => Pertemuan(
-        idAbsensi: json["id_absensi"],
+        kodeSeksi: json["kode_seksi"],
+        kodeJurusan: json["kode_jurusan"],
+        kodeMk: json["kode_mk"],
+        kodeDosen: json["kode_dosen"],
+        kodeRuang: json["kode_ruang"],
+        hari: json["hari"],
+        jadwalMulai: json["jadwal_mulai"],
+        jadwalSelesai: json["jadwal_selesai"],
+        status: json["status"],
         idPertemuan: json["id_pertemuan"],
-        idSeksi: json["id_seksi"],
-        idUser: json["id_user"],
         imeiAbsensi: json["imei_absensi"],
-        qrcode: json["qrcode"],
-        qrcodeImage: json["qrcode_image"],
         keterangan: (json["keterangan"] == null) ? null : json["keterangan"],
         catatan: (json["catatan"] == null) ? null : json["catatan"],
         verifikasi: (json["verifikasi"] == null) ? null : json["verifikasi"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
+        namaMk: json["nama_mk"],
+        sks: json["sks"],
         tanggal: DateTime.parse(json["tanggal"]),
         materi: (json["materi"] == null) ? null : json["materi"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id_absensi": idAbsensi,
+        "kode_seksi": kodeSeksi,
+        "kode_jurusan": kodeJurusan,
+        "kode_mk": kodeMk,
+        "kode_dosen": kodeDosen,
+        "kode_ruang": kodeRuang,
+        "hari": hari,
+        "jadwal_mulai": jadwalMulai,
+        "jadwal_selesai": jadwalSelesai,
+        "status": status,
         "id_pertemuan": idPertemuan,
-        "id_seksi": idSeksi,
-        "id_user": idUser,
         "imei_absensi": imeiAbsensi,
-        "qrcode": qrcode,
-        "qrcode_image": qrcodeImage,
         "keterangan": (keterangan == null) ? null : keterangan,
         "catatan": (catatan == null) ? null : catatan,
         "verifikasi": (verifikasi == null) ? null : verifikasi,
-        "created_at": createdAt.toString(),
-        "updated_at": updatedAt.toString(),
+        "nama_mk": namaMk,
+        "sks": sks,
         "tanggal":
             "${tanggal!.year.toString().padLeft(4, '0')}-${tanggal!.month.toString().padLeft(2, '0')}-${tanggal!.day.toString().padLeft(2, '0')}",
         "materi": (materi == null) ? null : materi,

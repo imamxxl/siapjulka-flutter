@@ -11,7 +11,7 @@ import 'package:siapjulka/network/domain.dart';
 
 class UserController extends GetxController with BaseController {
   Map<String, dynamic>? body;
-  var listUser = User().obs;
+  var dataUser = User().obs;
 
   @override
   void onInit() {
@@ -26,7 +26,7 @@ class UserController extends GetxController with BaseController {
     await response.get().then((value) {
       body = jsonDecode(value.body);
       if (value.statusCode == 200) {
-        listUser.value = User.fromJson(body!);
+        dataUser.value = User.fromJson(body!);
       } else {
         SnackbarHelper().snackbarError('Maaf, terjadi kesalahan');
       }

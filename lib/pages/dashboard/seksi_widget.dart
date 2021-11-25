@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:siapjulka/constant/pallete_color.dart';
 import 'package:siapjulka/controllers/pertemuan_controller.dart';
 import 'package:siapjulka/controllers/seksi_controller.dart';
-import 'package:siapjulka/models/seksi.dart';
+import 'package:siapjulka/models/seksi/seksi_list.dart';
 
 class SeksiWidget extends StatelessWidget {
   SeksiWidget(this.seksi, {Key? key}) : super(key: key);
@@ -46,6 +46,30 @@ class SeksiWidget extends StatelessWidget {
                       fontSize: 20,
                       color: Colors.black54),
                   overflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.account_balance_wallet_sharp,
+                      color: Pallete.primaryColor,
+                      size: 16,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Expanded(
+                      child: Text(
+                        seksi.sks! + ' SKS',
+                        maxLines: 1,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w300,
+                            fontSize: 14,
+                            color: Colors.black87),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    )
+                  ],
                 ),
                 const SizedBox(height: 10),
                 Row(
@@ -123,7 +147,7 @@ class SeksiWidget extends StatelessWidget {
                       ),
                     )
                   ],
-                )
+                ),
               ],
             ),
           ),

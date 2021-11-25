@@ -126,7 +126,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             fit: BoxFit.cover,
                             image: NetworkImage(
                               Domain().imageUrl +
-                                  "/avatar/${userController.listUser.value.avatar}",
+                                  "/avatar/${userController.dataUser.value.avatar}",
                             ),
                           ),
                         ),
@@ -158,15 +158,15 @@ class _ProfilePageState extends State<ProfilePage> {
                   height: 35,
                 ),
                 buildTextField(Icons.account_circle_outlined, "NIM",
-                    '${userController.listUser.value.nim}', false, false),
+                    '${userController.dataUser.value.nim}', false, false),
                 buildTextField(Icons.badge_outlined, "Nama",
-                    '${userController.listUser.value.nama}', false, false),
+                    '${userController.dataUser.value.nama}', false, false),
                 buildTextField(Icons.article_outlined, "Gender",
-                    '${userController.listUser.value.jk}', false, false),
+                    '${userController.dataUser.value.jk}', false, false),
                 buildTextField(
                     Icons.school_outlined,
                     "Jurusan",
-                    '${userController.listUser.value.namaJurusan}',
+                    '${userController.dataUser.value.namaJurusan}',
                     false,
                     false),
                 buildTextField(Icons.lock_outline_rounded, "Password", "******",
@@ -174,7 +174,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 buildTextField(
                   Icons.app_settings_alt_outlined,
                   "ID Perangkat",
-                  '${userController.listUser.value.imei}',
+                  (userController.dataUser.value.imei == null
+                      ? 'Perangkat belum terdaftar'
+                      : userController.dataUser.value.imei!),
                   false,
                   false,
                 ),
