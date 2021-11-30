@@ -13,6 +13,7 @@ String pertemuanToJson(List<Pertemuan> data) =>
 
 class Pertemuan {
   Pertemuan({
+    @required this.idAbsensi,
     @required this.kodeSeksi,
     @required this.kodeJurusan,
     @required this.kodeMk,
@@ -33,6 +34,7 @@ class Pertemuan {
     @required this.materi,
   });
 
+  int? idAbsensi;
   String? kodeSeksi;
   String? kodeJurusan;
   String? kodeMk;
@@ -53,6 +55,7 @@ class Pertemuan {
   String? materi;
 
   factory Pertemuan.fromJson(Map<String, dynamic> json) => Pertemuan(
+        idAbsensi: json["id_absensi"],
         kodeSeksi: json["kode_seksi"],
         kodeJurusan: json["kode_jurusan"],
         kodeMk: json["kode_mk"],
@@ -74,6 +77,7 @@ class Pertemuan {
       );
 
   Map<String, dynamic> toJson() => {
+        "id_absensi": idAbsensi,
         "kode_seksi": kodeSeksi,
         "kode_jurusan": kodeJurusan,
         "kode_mk": kodeMk,

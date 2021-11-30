@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 import 'package:siapjulka/constant/pallete_color.dart';
-import 'package:siapjulka/controllers/pertemuan_controller.dart';
-import 'package:siapjulka/controllers/seksi_controller.dart';
 import 'package:siapjulka/models/seksi/seksi_list.dart';
+import 'package:siapjulka/controllers/seksi_controller.dart';
+import 'package:siapjulka/controllers/pertemuan_controller.dart';
 
 class SeksiWidget extends StatelessWidget {
   SeksiWidget(this.seksi, {Key? key}) : super(key: key);
@@ -51,7 +51,7 @@ class SeksiWidget extends StatelessWidget {
                 Row(
                   children: [
                     Icon(
-                      Icons.account_balance_wallet_sharp,
+                      Icons.article,
                       color: Pallete.primaryColor,
                       size: 16,
                     ),
@@ -99,7 +99,7 @@ class SeksiWidget extends StatelessWidget {
                 Row(
                   children: [
                     Icon(
-                      Icons.calendar_today_sharp,
+                      Icons.access_time_filled,
                       color: Pallete.primaryColor,
                       size: 16,
                     ),

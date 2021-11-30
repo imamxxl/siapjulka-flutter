@@ -12,7 +12,6 @@ import 'package:siapjulka/helper/snakcbar_helper.dart';
 import 'package:siapjulka/models/user.dart';
 import 'package:siapjulka/network/domain.dart';
 import 'package:siapjulka/pages/dashboard/seksi_widget.dart';
-import 'package:siapjulka/routes/name_route.dart';
 import 'package:get/get.dart';
 import 'package:device_info/device_info.dart';
 import 'package:flutter/services.dart';
@@ -137,7 +136,7 @@ class _DashboardPageState extends State<DashboardPage> {
                               confirmTextColor: Colors.white,
                               onConfirm: () {
                                 postDeviceID();
-                                Get.offAllNamed(NameRoute.home);
+                                // Get.offAllNamed(NameRoute.home);
                               },
                             );
                           },
@@ -257,12 +256,15 @@ class _DashboardPageState extends State<DashboardPage> {
       child: TextFormField(
         // controller: passwordController,
         style: const TextStyle(fontSize: 18),
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           border: InputBorder.none,
           filled: true,
-          fillColor: Color(0xfff3f3f4),
+          fillColor: const Color(0xfff3f3f4),
           hintText: "Cari kelas...",
-          suffixIcon: Icon(Icons.search),
+          suffixIcon: IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {},
+          ),
         ),
       ),
     );
@@ -324,6 +326,7 @@ class _DashboardPageState extends State<DashboardPage> {
       String url = Domain().baseUrl;
       SharedPreferences preferences = await SharedPreferences.getInstance();
       int? id = preferences.getInt("login");
+
       final response = await http.post(
         Uri.parse('$url/send_deviceid/$id'),
         headers: <String, String>{
@@ -333,10 +336,21 @@ class _DashboardPageState extends State<DashboardPage> {
           'imei': identifier,
         }),
       );
+
       final body = jsonDecode(response.body);
-      SnackbarHelper().snackbarSuccess("${body['message']}");
+
+      if (response.statusCode == 200) {
+        SnackbarHelper().snackbarSuccess("${body['message']}");
+      } else {
+        // hideLoading();
+        SnackbarHelper().snackbarError('${body!['message']}');
+        // SnackbarHelper()
+        //     .snackbarWarning('Terjadi kesalahan. Ulangi lagi nanti');
+      }
+      // final body = jsonDecode(response.body);
+      // SnackbarHelper().snackbarSuccess("${body['message']}");
     } catch (e) {
-      SnackbarHelper().snackbarError("Maaf Terjadi kesalahan");
+      SnackbarHelper().snackbarError("Terjadi kesalahan. Ulangi lagi nanti");
     }
   }
 

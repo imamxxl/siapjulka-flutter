@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:siapjulka/constant/pallete_color.dart';
 import 'package:siapjulka/controllers/pertemuan_controller.dart';
 import 'package:siapjulka/controllers/seksi_controller.dart';
+import 'package:siapjulka/routes/name_route.dart';
 
 class PertemuanPage extends StatefulWidget {
   const PertemuanPage({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class _PertemuanPageState extends State<PertemuanPage> {
   final SeksiController seksiController = Get.put(SeksiController());
 
   Future<void> _pullRefresh() async {
-    // pertemuanController.selectSeksi(idSeksi);
+    pertemuanController.selectSeksi(pertemuanController.idSeksi.toInt());
   }
 
   @override
@@ -25,12 +26,6 @@ class _PertemuanPageState extends State<PertemuanPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pertemuan'),
-        // (pertemuanController.dataSeksi.value.namaMk == null)
-        //   ? 'Tidak ada kelas terdeteksi'
-        //   : pertemuanController.dataSeksi.value.namaMk! +
-        //       ' ' +
-        //       pertemuanController.dataSeksi.value.sks! +
-        //       ' SKS'),
       ),
       body: SafeArea(
         child: Obx(
@@ -134,20 +129,24 @@ class _PertemuanPageState extends State<PertemuanPage> {
                                             children: [
                                               // Button Hadir
                                               GestureDetector(
-                                                  onTap: () {},
-                                                  // => _onEdit(int.tryParse(e.id)),
-                                                  child: Column(
-                                                    children: [
-                                                      Icon(
-                                                        Icons.qr_code_scanner,
-                                                        color: Pallete
-                                                            .successColor,
-                                                        size: 30,
-                                                      ),
-                                                      const Text('Scan',
-                                                          maxLines: 2)
-                                                    ],
-                                                  )),
+                                                onTap: () {
+                                                  Get.toNamed(
+                                                      NameRoute.scanner);
+                                                },
+                                                // => _onEdit(int.tryParse(e.id)),
+                                                child: Column(
+                                                  children: [
+                                                    Icon(
+                                                      Icons.qr_code_scanner,
+                                                      color:
+                                                          Pallete.successColor,
+                                                      size: 30,
+                                                    ),
+                                                    const Text('Scan',
+                                                        maxLines: 2)
+                                                  ],
+                                                ),
+                                              ),
                                               const SizedBox(width: 15),
                                               // Button izin
                                               GestureDetector(
@@ -198,7 +197,7 @@ class _PertemuanPageState extends State<PertemuanPage> {
                       backgroundColor: Pallete.primaryColor,
                       child: const Icon(Icons.qr_code_scanner),
                       onPressed: () {
-                        // Get.to(() => AddGamePage());
+                        Get.toNamed(NameRoute.scanner);
                       }),
                 ),
               ],

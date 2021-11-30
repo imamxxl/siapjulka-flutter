@@ -3,6 +3,7 @@ import 'package:siapjulka/pages/dashboard/dashboard_page.dart';
 import 'package:siapjulka/pages/home_page.dart';
 import 'package:siapjulka/pages/login_page.dart';
 import 'package:siapjulka/pages/profile_page.dart';
+import 'package:siapjulka/pages/scanner/scanner_page.dart';
 import 'package:siapjulka/routes/name_route.dart';
 
 class AppRoute {
@@ -23,16 +24,12 @@ class AppRoute {
       name: NameRoute.dashboard,
       page: () => const DashboardPage(),
     ),
-    // GetPage(
-    //   name: NameRoute.pertemuan + ':/idSeksi?',
-    //   page: () => PertemuanPage()),
-    // ),
     GetPage(
-      name: NameRoute.search,
-      page: () => const ProfilePage(),
+      name: NameRoute.scanner,
+      page: () => const ScannerPage(),
     ),
     GetPage(
-      name: NameRoute.scan,
+      name: NameRoute.search,
       page: () => const ProfilePage(),
     ),
     GetPage(
