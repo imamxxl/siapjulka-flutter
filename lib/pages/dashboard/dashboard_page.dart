@@ -192,7 +192,6 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 
   Widget buttonGetData() {
-    // final pcontroller = PertemuanController();
     final controller = TestController();
     return Padding(
       padding: const EdgeInsets.all(10),

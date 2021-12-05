@@ -4,6 +4,9 @@ import 'package:siapjulka/constant/pallete_color.dart';
 import 'package:siapjulka/models/user.dart';
 import 'package:siapjulka/network/domain.dart';
 import 'package:siapjulka/pages/dashboard/dashboard_page.dart';
+import 'package:siapjulka/pages/laporan/laporan_page.dart';
+import 'package:siapjulka/pages/scanner_home/scanner_home.dart';
+import 'package:siapjulka/pages/search/search_page.dart';
 import 'package:siapjulka/routes/name_route.dart';
 import 'package:siapjulka/services/user_service.dart';
 
@@ -18,22 +21,11 @@ class _NavPageState extends State<NavPage> {
   late Future<User> futureUser;
   int _selectedIndex = 0;
 
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     DashboardPage(),
-    Text(
-      'Index 1: Cari Kelas',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: Scan QR',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 3: Laporan',
-      style: optionStyle,
-    ),
+    SearchPage(),
+    ScannerHomePage(),
+    LaporanPage()
   ];
 
   void _onItemTapped(int index) {
@@ -96,7 +88,7 @@ class _NavPageState extends State<NavPage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.qr_code_scanner),
-            label: 'Scan QR',
+            label: 'Scan',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.analytics_outlined),

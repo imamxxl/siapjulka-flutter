@@ -1,21 +1,20 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:siapjulka/constant/pallete_color.dart';
+import 'package:siapjulka/controllers/laporan_controller.dart';
 import 'package:siapjulka/models/seksi/seksi_list.dart';
 import 'package:siapjulka/controllers/seksi_controller.dart';
-import 'package:siapjulka/controllers/pertemuan_controller.dart';
 
-class SeksiWidget extends StatelessWidget {
-  SeksiWidget(this.seksi, {Key? key}) : super(key: key);
+class LaporanWidget extends StatelessWidget {
+  LaporanWidget(this.seksi, {Key? key}) : super(key: key);
   final Seksi seksi;
 
   final SeksiController seksiController = Get.put(SeksiController());
-  final PertemuanController pertemuanController =
-      Get.put(PertemuanController());
+  final LaporanController laporanController = Get.put(LaporanController());
 
-  Future<void> _onPertemuan(int idSeksi) async {
-    pertemuanController.idSeksi.value = idSeksi;
-    pertemuanController.toPertemuanPage();
+  Future<void> _onDetail(int idSeksi) async {
+    laporanController.idSeksi.value = idSeksi;
+    laporanController.toDetailPage();
   }
 
   @override
@@ -24,7 +23,7 @@ class SeksiWidget extends StatelessWidget {
       child: Material(
         child: InkWell(
           splashColor: Colors.grey[300],
-          onTap: () => _onPertemuan(int.parse('${seksi.idSeksi}')),
+          onTap: () => _onDetail(int.parse('${seksi.idSeksi}')),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -33,26 +32,26 @@ class SeksiWidget extends StatelessWidget {
                 Text(
                   seksi.kodeSeksi!,
                   maxLines: 1,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500, color: Pallete.primaryColor),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w500, color: Colors.black54),
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 10),
                 Text(
                   seksi.namaMk!,
                   maxLines: 3,
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontWeight: FontWeight.w500,
-                      fontSize: 20,
-                      color: Colors.black54),
+                      fontSize: 18,
+                      color: Pallete.primaryColor),
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 10),
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.account_box_sharp,
-                      color: Pallete.primaryColor,
+                      color: Colors.black54,
                       size: 16,
                     ),
                     const SizedBox(
@@ -74,9 +73,9 @@ class SeksiWidget extends StatelessWidget {
                 const SizedBox(height: 10),
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.access_time_filled,
-                      color: Pallete.primaryColor,
+                      color: Colors.black54,
                       size: 16,
                     ),
                     const SizedBox(
@@ -103,9 +102,9 @@ class SeksiWidget extends StatelessWidget {
                 const SizedBox(height: 10),
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.article,
-                      color: Pallete.primaryColor,
+                      color: Colors.black54,
                       size: 16,
                     ),
                     const SizedBox(
@@ -127,9 +126,9 @@ class SeksiWidget extends StatelessWidget {
                 const SizedBox(height: 10),
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.location_on,
-                      color: Pallete.primaryColor,
+                      color: Colors.black54,
                       size: 16,
                     ),
                     const SizedBox(
