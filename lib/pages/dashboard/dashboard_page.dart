@@ -341,13 +341,8 @@ class _DashboardPageState extends State<DashboardPage> {
       if (response.statusCode == 200) {
         SnackbarHelper().snackbarSuccess("${body['message']}");
       } else {
-        // hideLoading();
         SnackbarHelper().snackbarError('${body!['message']}');
-        // SnackbarHelper()
-        //     .snackbarWarning('Terjadi kesalahan. Ulangi lagi nanti');
       }
-      // final body = jsonDecode(response.body);
-      // SnackbarHelper().snackbarSuccess("${body['message']}");
     } catch (e) {
       SnackbarHelper().snackbarError("Terjadi kesalahan. Ulangi lagi nanti");
     }

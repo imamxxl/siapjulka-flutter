@@ -14,7 +14,7 @@ class AppRoute {
     ),
     GetPage(
       name: NameRoute.home,
-      page: () => const HomePage(),
+      page: () => const HomePage(), 
     ),
     GetPage(
       name: NameRoute.profil,
