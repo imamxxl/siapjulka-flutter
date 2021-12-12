@@ -19,10 +19,9 @@ class SeksiController extends GetxController with BaseController {
     get();
   }
 
-  // get Data
   void get() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    int? id = preferences.getInt("login");
+    int? id = preferences.getInt('login');
     Domain response = Domain(url: '/participant/$id');
 
     await response.get().then((value) {
