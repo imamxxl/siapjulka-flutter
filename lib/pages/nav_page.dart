@@ -6,7 +6,7 @@ import 'package:siapjulka/network/domain.dart';
 import 'package:siapjulka/pages/dashboard/dashboard_page.dart';
 import 'package:siapjulka/pages/laporan/laporan_page.dart';
 import 'package:siapjulka/pages/scanner_home/scanner_home.dart';
-import 'package:siapjulka/pages/search/search_page.dart';
+import 'package:siapjulka/pages/search_token/search_page.dart';
 import 'package:siapjulka/routes/name_route.dart';
 import 'package:siapjulka/services/user_service.dart';
 

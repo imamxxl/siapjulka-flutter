@@ -12,11 +12,13 @@ import 'package:siapjulka/helper/dialog_helper.dart';
 import 'package:siapjulka/helper/snakcbar_helper.dart';
 import 'package:siapjulka/models/pertemuan.dart';
 import 'package:siapjulka/network/domain.dart';
+import 'package:siapjulka/pages/pertemuan/pertemuan_null_page.dart';
 import 'package:siapjulka/pages/pertemuan/pertemuan_page.dart';
 import 'package:http/http.dart' as http;
 
 class PertemuanController extends GetxController with BaseController {
   RxInt idSeksi = 0.obs;
+  RxString namaMK = ''.obs;
   dynamic body;
   var listPertemuan = <Pertemuan>[].obs;
 
@@ -50,7 +52,9 @@ class PertemuanController extends GetxController with BaseController {
           );
         }
       } catch (error) {
-        SnackbarHelper().snackbarWarning('${body['message']}');
+        Get.to(
+          () => const PertemuanNullPage(),
+        );
       }
     }).catchError((error) {
       if (error is BadRequestException) {
@@ -73,40 +77,53 @@ class PertemuanController extends GetxController with BaseController {
     } else {}
   }
 
-  uploadPDF() async {
-    var url = Uri.parse(Domain().baseUrl + '/izin');
+// reset file yang telah dipilih
+  void resetPickFile() async {
+    file == null;
+  }
 
-    var request = http.MultipartRequest("POST", url);
-    request.fields['id_absensi'] = idAbsensiController.text;
-    request.fields['device_id'] = deviceController.text;
-    request.files.add(await http.MultipartFile.fromPath(
-      'file',
-      file!.path,
-      contentType: MediaType('application', 'x-tar'),
-    ));
+  void uploadPDF() async {
+    showLoading();
+    if (file != null) {
+      var url = Uri.parse(Domain().baseUrl + '/izin');
 
-    request.send().then((result) async {
-      http.Response.fromStream(result).then((response) {
-        body = jsonDecode(response.body);
-        if (response.statusCode == 200) {
-          if (body!['status'] == 'Success') {
-            hideLoading();
-            Get.back();
-            SnackbarHelper().snackbarSuccess('${body!['message']}');
-          } else {
-            hideLoading();
-            SnackbarHelper().snackbarWarning('${body!['message']}');
+      var request = http.MultipartRequest("POST", url);
+      request.fields['id_absensi'] = idAbsensiController.text;
+      request.fields['device_id'] = deviceController.text;
+      request.files.add(await http.MultipartFile.fromPath(
+        'file',
+        file!.path,
+        contentType: MediaType('application', 'x-tar'),
+      ));
+
+      request.send().then((result) async {
+        http.Response.fromStream(result).then((response) {
+          body = jsonDecode(response.body);
+          if (response.statusCode == 200) {
+            if (body!['status'] == 'Success') {
+              hideLoading();
+              resetPickFile();
+              Get.back();
+              SnackbarHelper().snackbarSuccess('${body!['message']}');
+            } else {
+              hideLoading();
+              SnackbarHelper().snackbarWarning('${body!['message']}');
+            }
           }
+        });
+      }).catchError((error) {
+        hideLoading();
+        if (error is BadRequestException) {
+          var apiError = json.decode(error.message!);
+          SnackbarHelper().snackbarError(apiError["message"]);
+        } else {
+          handleError(error);
         }
-        // return response.body;
       });
-    }).catchError((error) {
-      if (error is BadRequestException) {
-        var apiError = json.decode(error.message!);
-        SnackbarHelper().snackbarError(apiError["message"]);
-      } else {
-        handleError(error);
-      }
-    });
+    } else {
+      hideLoading();
+      SnackbarHelper()
+          .snackbarWarning('Anda harus memilih file PDF untuk diupload');
+    }
   }
 }

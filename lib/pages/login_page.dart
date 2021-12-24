@@ -1,14 +1,7 @@
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:siapjulka/constant/pallete_color.dart';
-import 'package:http/http.dart' as http;
-import 'package:siapjulka/helper/snakcbar_helper.dart';
-import 'package:siapjulka/network/domain.dart';
-import 'package:siapjulka/routes/name_route.dart';
+import 'package:siapjulka/controllers/login_controller.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key, this.title}) : super(key: key);
@@ -20,15 +13,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  var usernameController = TextEditingController();
-  var passwordController = TextEditingController();
-
-  int _state = 0;
+  final LoginController loginController = Get.put(LoginController());
 
   @override
   void initState() {
     super.initState();
-    _checkInfoLogin();
+    loginController.checkLogin();
   }
 
   Widget _logoIcon() {
@@ -65,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TextField(
-            controller: usernameController,
+            controller: loginController.usernameController,
             style: const TextStyle(fontSize: 18),
             decoration: const InputDecoration(
               border: InputBorder.none,
@@ -84,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       child: TextFormField(
-        controller: passwordController,
+        controller: loginController.passwordController,
         obscureText: isPassword,
         style: const TextStyle(fontSize: 18),
         decoration: const InputDecoration(
@@ -119,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
         child: InkWell(
           splashColor: Pallete.primaryColor[200],
           onTap: () {
-            _checkLogin();
+            loginController.login();
           },
           child: setUpButtonChild(),
         ),
@@ -161,84 +151,12 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _checkLogin() async {
-    if (passwordController.text.isNotEmpty &&
-        usernameController.text.isNotEmpty) {
-      var response = await http.post(
-          // here ip for teathering smartphones
-          Uri.parse(Domain().baseUrl + "/login"),
-
-          // // here ip for wifi
-          // Uri.parse("http://192.168.100.162:8000/api/login"),
-          body: ({
-            "username": usernameController.text,
-            "password": passwordController.text
-          }));
-
-      try {
-        if (response.statusCode == 200) {
-          setState(() {
-            if (_state == 0) {
-              animateButton();
-            }
-          });
-          final body = jsonDecode(response.body);
-          SharedPreferences preferences = await SharedPreferences.getInstance();
-          await preferences.setInt("login", body["id"]);
-          Get.offAllNamed(NameRoute.home);
-        } else {
-          final body = jsonDecode(response.body);
-          SnackbarHelper().snackbarError("${body['message']}");
-        }
-      } catch (e) {
-        SnackbarHelper().snackbarError("Tidak dapat Menghubungkan");
-      }
-    } else {
-      SnackbarHelper().snackbarError("Username dan Password harus diisi");
-    }
-  }
-
   Widget setUpButtonChild() {
-    if (_state == 0) {
-      return const Center(
-        child: Text(
-          "Sign In",
-          style: TextStyle(fontSize: 20, color: Colors.white),
-        ),
-      );
-    } else if (_state == 1) {
-      return const Center(
-        child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-        ),
-      );
-    } else {
-      return const Icon(
-        Icons.check,
-        color: Colors.white,
-        size: 40,
-      );
-    }
-  }
-
-  void animateButton() {
-    setState(() {
-      _state = 1;
-    });
-
-    Timer(const Duration(milliseconds: 1500), () {
-      setState(() {
-        _state = 2;
-      });
-    });
-  }
-
-  void _checkInfoLogin() async {
-    // Here we check if user already login or id already available or not
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    int? val = preferences.getInt("login");
-    if (val != null) {
-      Get.offNamed(NameRoute.home);
-    }
+    return const Center(
+      child: Text(
+        "Sign In",
+        style: TextStyle(fontSize: 20, color: Colors.white),
+      ),
+    );
   }
 }

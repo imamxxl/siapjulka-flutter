@@ -252,6 +252,47 @@ class _ProfilePageState extends State<ProfilePage> {
                     width: MediaQuery.of(context).size.width,
                     height: 50,
                     decoration: BoxDecoration(
+                      color: Pallete.purpleColor,
+                    ),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        splashColor: Pallete.purpleColor,
+                        onTap: () {
+                          Get.defaultDialog(
+                            contentPadding:
+                                const EdgeInsets.only(top: 10, bottom: 10),
+                            barrierDismissible: true,
+                            radius: 10,
+                            buttonColor: Pallete.purpleColor,
+                            title: 'Info Aplikasi',
+                            titleStyle: TextStyle(color: Pallete.purpleColor),
+                            middleText:
+                                'SIAPJULKA \n\n Sistem Absensi Perkuliahan Jurusan Eletronika \n\n "Merupakan aplikasi kehadiran mahasiswa berbasis QR-Code scanning dengan tambahan fitur upload surat sakit/izin dan terintegrasi dengan website perkuliahan" \n\n Oleh\n AHMAD IMAM \n(16076040) \n Pendidikan Teknik Informatika & Komputer \n Universitas Negeri Padang \n\n Dikembangkan untuk Android & iOS \n\n  v.1.0.0+1',
+                            textConfirm: 'Ok',
+                            cancelTextColor: Pallete.purpleColor,
+                            confirmTextColor: Colors.white,
+                            onConfirm: () {
+                              Get.back();
+                            },
+                          );
+                        },
+                        child: const Center(
+                          child: Text(
+                            "Info Aplikasi",
+                            style: TextStyle(fontSize: 18, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 50,
+                    decoration: BoxDecoration(
                       color: Pallete.primaryColor,
                     ),
                     child: Material(

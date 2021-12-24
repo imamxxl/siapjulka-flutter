@@ -1,10 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:siapjulka/constant/pallete_color.dart';
+import 'package:siapjulka/constant/day_item.dart';
+import 'package:siapjulka/controllers/dashboard_controller.dart';
 import 'package:siapjulka/controllers/pertemuan_controller.dart';
+import 'package:siapjulka/controllers/search_controller.dart';
 import 'package:siapjulka/controllers/user_controller.dart';
 import 'package:siapjulka/controllers/seksi_controller.dart';
 import 'package:siapjulka/controllers/test_controller.dart';
@@ -33,8 +37,11 @@ class _DashboardPageState extends State<DashboardPage> {
 
   final SeksiController seksiController = Get.put(SeksiController());
   final UserController userController = Get.put(UserController());
+  final SearchController searchController = Get.put(SearchController());
   final PertemuanController pertemuanController =
       Get.put(PertemuanController());
+  final DashboardController dashboardController =
+      Get.put(DashboardController());
 
   @override
   void initState() {
@@ -64,7 +71,7 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
               const SizedBox(height: 5),
               Obx(() => Text(
-                    '${userController.dataUser.value.nama}',
+                    '${userController.dataUser.value.nama}'.toUpperCase(),
                     style: TextStyle(
                       fontSize: 18.0,
                       color: Pallete.primaryColor,
@@ -249,11 +256,102 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
+  Widget hariScroll() {
+    return Column(
+      children: [
+        SizedBox(
+          height: 200,
+          child: ListView.separated(
+            padding: const EdgeInsets.only(left: 8, right: 8),
+            separatorBuilder: (context, _) => (const SizedBox(
+              width: 8,
+            )),
+            physics: const ClampingScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: items.length,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (BuildContext context, int index) => Row(
+              children: [
+                buildCard(items[index]),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget buildCard(DayItem item) {
+    return SizedBox(
+      width: 120,
+      height: 200,
+      child: Column(
+        children: [
+          Container(
+            width: 120,
+            height: 200,
+            decoration: BoxDecoration(
+              color: Color(int.parse(item.color)),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(16),
+                splashColor: Colors.white,
+                onTap: () => _onDay(item.hari),
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: AspectRatio(
+                          aspectRatio: 4 / 3,
+                          child: Image.asset(
+                            item.image,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        item.hari,
+                        style: const TextStyle(
+                            fontSize: 22,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400),
+                      ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        item.pesan,
+                        style:
+                            const TextStyle(fontSize: 14, color: Colors.white),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(
+                        height: 4,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
   Widget searchBar() {
     return Container(
-      margin: const EdgeInsets.all(8),
+      margin: const EdgeInsets.only(top: 15, right: 8, left: 8),
       child: TextFormField(
-        // controller: passwordController,
+        controller: searchController.clueController,
         style: const TextStyle(fontSize: 18),
         decoration: InputDecoration(
           border: InputBorder.none,
@@ -262,7 +360,9 @@ class _DashboardPageState extends State<DashboardPage> {
           hintText: "Cari kelas...",
           suffixIcon: IconButton(
             icon: const Icon(Icons.search),
-            onPressed: () {},
+            onPressed: () {
+              searchController.search();
+            },
           ),
         ),
       ),
@@ -291,6 +391,11 @@ class _DashboardPageState extends State<DashboardPage> {
         ),
       ],
     );
+  }
+
+  Future<void> _onDay(String hari) async {
+    dashboardController.kodeHari.value = hari;
+    dashboardController.toHariPage();
   }
 
   Future<void> _pullRefresh() async {
@@ -352,14 +457,14 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: _pullRefresh,
-      child: ListView(children: [
+      child: SingleChildScrollView(
+          child: Column(children: [
         checkDeviceID(visibility),
         welcomeUsers(),
+        hariScroll(),
         searchBar(),
-        // buttonGetData(),
-        // buttonPostData(),
         gridView(),
-      ]),
+      ])),
     );
   }
 }

@@ -1,15 +1,13 @@
-import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:siapjulka/constant/pallete_color.dart';
-import 'package:siapjulka/models/seksi/seksi_list.dart';
-import 'package:siapjulka/controllers/seksi_controller.dart';
 import 'package:siapjulka/controllers/pertemuan_controller.dart';
+import 'package:siapjulka/models/hari/list_hari.dart';
 
-class SeksiWidget extends StatelessWidget {
-  SeksiWidget(this.seksi, {Key? key}) : super(key: key);
-  final Seksi seksi;
+class HariWidget extends StatelessWidget {
+  HariWidget(this.listHari, {Key? key}) : super(key: key);
+  final ListHari listHari;
 
-  final SeksiController seksiController = Get.put(SeksiController());
   final PertemuanController pertemuanController =
       Get.put(PertemuanController());
 
@@ -18,27 +16,20 @@ class SeksiWidget extends StatelessWidget {
     pertemuanController.toPertemuanPage();
   }
 
-  Future<void> _onNamaMK(String namaMK) async {
-    pertemuanController.namaMK.value = namaMK;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Card(
       child: Material(
         child: InkWell(
           splashColor: Colors.grey[300],
-          onTap: () {
-            _onPertemuan(int.parse('${seksi.idSeksi}'));
-            _onNamaMK('${seksi.namaMk}');
-          },
+          onTap: () => _onPertemuan(int.parse('${listHari.idSeksi}')),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  seksi.kodeSeksi!,
+                  listHari.kodeSeksi!,
                   maxLines: 1,
                   style: TextStyle(
                       fontWeight: FontWeight.w500, color: Pallete.primaryColor),
@@ -46,7 +37,7 @@ class SeksiWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  seksi.namaMk!,
+                  listHari.namaMk!,
                   maxLines: 3,
                   style: const TextStyle(
                       fontWeight: FontWeight.w500,
@@ -67,7 +58,7 @@ class SeksiWidget extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        seksi.namaDosen!,
+                        listHari.namaDosen!,
                         maxLines: 1,
                         style: const TextStyle(
                             fontWeight: FontWeight.w300,
@@ -91,11 +82,11 @@ class SeksiWidget extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        seksi.hari! +
+                        listHari.hari! +
                             ' (' +
-                            seksi.jadwalMulai! +
+                            listHari.jadwalMulai! +
                             '-' +
-                            seksi.jadwalSelesai! +
+                            listHari.jadwalSelesai! +
                             ')',
                         maxLines: 1,
                         style: const TextStyle(
@@ -120,7 +111,7 @@ class SeksiWidget extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        seksi.sks! + ' SKS',
+                        listHari.sks! + ' SKS',
                         maxLines: 1,
                         style: const TextStyle(
                             fontWeight: FontWeight.w300,
@@ -144,7 +135,7 @@ class SeksiWidget extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        seksi.kodeRuang!,
+                        listHari.kodeRuang!,
                         maxLines: 1,
                         style: const TextStyle(
                             fontWeight: FontWeight.w300,

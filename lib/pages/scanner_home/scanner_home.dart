@@ -189,8 +189,13 @@ class _ScannerHomePageState extends State<ScannerHomePage> {
   void onQRViewCreated(QRViewController controller) {
     setState(() => this.controller = controller);
 
-    controller.scannedDataStream
-        .listen((qrcode) => setState(() => this.qrcode = qrcode));
+    controller.scannedDataStream.listen((qrcode) {
+      setState(() => this.qrcode = qrcode);
+      // _isiAbsensi();
+      // if (mounted) {
+      //   controller.dispose();
+      // }
+    });
   }
 
   // check QR Code result from the scanning

@@ -60,7 +60,7 @@ class _PertemuanPageState extends State<PertemuanPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pertemuan'),
+        title: Obx(() => Text(pertemuanController.namaMK.toString())),
       ),
       body: SafeArea(
         child: Obx(
@@ -96,16 +96,6 @@ class _PertemuanPageState extends State<PertemuanPage> {
                                               fontSize: 16,
                                               fontWeight: FontWeight.w500,
                                               color: Pallete.primaryColor),
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Text(
-                                          e.namaMk!,
-                                          style: const TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black54),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
                                         ),
                                         const SizedBox(height: 5),
                                         Text(

@@ -8,7 +8,7 @@ import 'package:siapjulka/helper/dialog_helper.dart';
 import 'package:siapjulka/helper/snakcbar_helper.dart';
 import 'package:siapjulka/models/token/token_success.dart';
 import 'package:siapjulka/network/domain.dart';
-import 'package:siapjulka/pages/search/hasil_search_page.dart';
+import 'package:siapjulka/pages/search_token/hasil_search_page.dart';
 
 class TokenController extends GetxController with BaseController {
   Map<String, dynamic>? body;
