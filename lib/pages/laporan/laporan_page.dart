@@ -28,64 +28,6 @@ class _LaporanPageState extends State<LaporanPage> {
     super.initState();
   }
 
-  // Widget buttonGetData() {
-  //   final controller = LaporanController();
-  //   return Padding(
-  //     padding: const EdgeInsets.all(10),
-  //     child: Container(
-  //       width: MediaQuery.of(context).size.width,
-  //       height: 50,
-  //       decoration: BoxDecoration(
-  //         color: Pallete.successColor,
-  //       ),
-  //       child: Material(
-  //         color: Colors.transparent,
-  //         child: InkWell(
-  //           splashColor: Pallete.successColor[200],
-  //           onTap: () async {
-  //             controller.get(1);
-  //           },
-  //           child: const Center(
-  //             child: Text(
-  //               "Get Data",
-  //               style: TextStyle(fontSize: 20, color: Colors.white),
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // Widget buttonPostData() {
-  //   final controller = TestController();
-  //   return Padding(
-  //     padding: const EdgeInsets.all(10),
-  //     child: Container(
-  //       width: MediaQuery.of(context).size.width,
-  //       height: 50,
-  //       decoration: BoxDecoration(
-  //         color: Pallete.successColor,
-  //       ),
-  //       child: Material(
-  //         color: Colors.transparent,
-  //         child: InkWell(
-  //           splashColor: Pallete.successColor[200],
-  //           onTap: () async {
-  //             controller.postData();
-  //           },
-  //           child: const Center(
-  //             child: Text(
-  //               "Post Data",
-  //               style: TextStyle(fontSize: 20, color: Colors.white),
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
   Widget gridView() {
     return Column(
       children: [
