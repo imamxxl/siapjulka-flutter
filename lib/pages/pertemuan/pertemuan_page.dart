@@ -177,7 +177,11 @@ class _PertemuanPageState extends State<PertemuanPage> {
                                               GestureDetector(
                                                 onTap: () {
                                                   Get.bottomSheet(Container(
-                                                    height: 320,
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height /
+                                                            2,
                                                     padding: const EdgeInsets
                                                             .symmetric(
                                                         horizontal: 20,
@@ -250,7 +254,7 @@ class _PertemuanPageState extends State<PertemuanPage> {
                                                             ),
                                                           ),
                                                           const SizedBox(
-                                                              height: 20),
+                                                              height: 30),
                                                           Container(
                                                             width: 100,
                                                             height: 50,
@@ -326,7 +330,7 @@ class _PertemuanPageState extends State<PertemuanPage> {
                                                             ),
                                                           ),
                                                           const SizedBox(
-                                                              height: 20),
+                                                              height: 30),
                                                           Row(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
