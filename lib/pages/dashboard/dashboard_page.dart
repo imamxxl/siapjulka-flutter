@@ -397,15 +397,17 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: _pullRefresh,
-      child: SingleChildScrollView(
-          child: Column(children: [
-        checkDeviceID(visibility),
-        welcomeUsers(),
-        hariScroll(),
-        searchBar(),
-        gridView(),
-      ])),
-    );
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              checkDeviceID(visibility),
+              welcomeUsers(),
+              hariScroll(),
+              searchBar(),
+              gridView(),
+            ],
+          ),
+        ),
+        onRefresh: _pullRefresh);
   }
 }
