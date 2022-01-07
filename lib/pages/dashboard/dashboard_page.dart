@@ -11,7 +11,6 @@ import 'package:siapjulka/controllers/pertemuan_controller.dart';
 import 'package:siapjulka/controllers/search_controller.dart';
 import 'package:siapjulka/controllers/user_controller.dart';
 import 'package:siapjulka/controllers/seksi_controller.dart';
-import 'package:siapjulka/controllers/test_controller.dart';
 import 'package:siapjulka/helper/snakcbar_helper.dart';
 import 'package:siapjulka/models/user.dart';
 import 'package:siapjulka/network/domain.dart';
@@ -108,7 +107,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     ),
                     const SizedBox(height: 5),
                     const Text(
-                      'Kayaknya perangkat kamu belum terdaftar deh. Yuk daftarin dulu, supaya bisa isi kehadiran.',
+                      'Sepertinya perangkat kamu belum terdaftar di sistem. Silahkan daftar dulu, supaya bisa isi kehadiran.',
                       style: TextStyle(
                         fontSize: 16.0,
                         color: Colors.black54,
@@ -149,7 +148,7 @@ class _DashboardPageState extends State<DashboardPage> {
                           },
                           child: const Center(
                             child: Text(
-                              "Iya, Daftar",
+                              "Ya, Daftar",
                               style:
                                   TextStyle(fontSize: 18, color: Colors.white),
                             ),
@@ -195,64 +194,6 @@ class _DashboardPageState extends State<DashboardPage> {
         }
         return deviceID(visibility);
       },
-    );
-  }
-
-  Widget buttonGetData() {
-    final controller = TestController();
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: 50,
-        decoration: BoxDecoration(
-          color: Pallete.successColor,
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            splashColor: Pallete.successColor[200],
-            onTap: () async {
-              controller.getData();
-            },
-            child: const Center(
-              child: Text(
-                "Get Data",
-                style: TextStyle(fontSize: 20, color: Colors.white),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget buttonPostData() {
-    final controller = TestController();
-    return Padding(
-      padding: const EdgeInsets.all(10),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        height: 50,
-        decoration: BoxDecoration(
-          color: Pallete.successColor,
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            splashColor: Pallete.successColor[200],
-            onTap: () async {
-              controller.postData();
-            },
-            child: const Center(
-              child: Text(
-                "Post Data",
-                style: TextStyle(fontSize: 20, color: Colors.white),
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 
