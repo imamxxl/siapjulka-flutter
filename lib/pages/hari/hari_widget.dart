@@ -16,13 +16,20 @@ class HariWidget extends StatelessWidget {
     pertemuanController.toPertemuanPage();
   }
 
+  Future<void> _onNamaMK(String namaMK) async {
+    pertemuanController.namaMK.value = namaMK;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
       child: Material(
         child: InkWell(
           splashColor: Colors.grey[300],
-          onTap: () => _onPertemuan(int.parse('${listHari.idSeksi}')),
+          onTap: () {
+            _onPertemuan(int.parse('${listHari.idSeksi}'));
+            _onNamaMK('${listHari.namaMk}');
+          },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
