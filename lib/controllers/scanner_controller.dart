@@ -33,17 +33,16 @@ class ScannerController extends GetxController with BaseController {
       if (value.statusCode == 200) {
         if (body!['status'] == 'Success') {
           hideLoading();
-          Get.back();
           SnackbarHelper()
-              .snackbarSuccess('Anda telah berhasil melakukan absensi.');
+              .snackbarAbsensiSuccess('Anda telah berhasil melakukan absensi.');
         } else {
           hideLoading();
-          SnackbarHelper().snackbarWarning('${body!['message']}');
+          SnackbarHelper().snackbarAbsensiWarning('${body!['message']}');
         }
       } else {
         hideLoading();
-        SnackbarHelper()
-            .snackbarWarning('QR Code tidak terbaca / tidak ditemukan');
+        SnackbarHelper().snackbarAbsensiWarning(
+            'Maaf, terjadi kesalahan/QR Code tidak ditemukan');
       }
     }).catchError((onError) {
       hideLoading();
