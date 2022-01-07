@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:siapjulka/controllers/base_controller.dart';
@@ -19,6 +20,8 @@ class UserController extends GetxController with BaseController {
     get();
   }
 
+  TextEditingController passwordController = TextEditingController();
+
   void get() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     int? id = preferences.getInt("login");
@@ -37,6 +40,35 @@ class UserController extends GetxController with BaseController {
       } else {
         handleError(error);
       }
+    });
+  }
+
+  // post Data
+  void changePassword() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    int? id = preferences.getInt("login");
+
+    Domain response = Domain(
+        url: '/change_password/$id',
+        body: {'new_password': passwordController.text});
+
+    showLoading('Mengirim data...');
+
+    await response.post().then((value) {
+      body = jsonDecode(value.body);
+      if (value.statusCode == 200) {
+        hideLoading();
+        Get.back();
+        SnackbarHelper()
+            .snackbarSuccess('Anda telah berhasil merubah password.');
+      } else {
+        hideLoading();
+        Get.back();
+        SnackbarHelper().snackbarWarning('${body!['message']}');
+      }
+    }).catchError((onError) {
+      hideLoading();
+      printError();
     });
   }
 }

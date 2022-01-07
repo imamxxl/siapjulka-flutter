@@ -42,8 +42,8 @@ class ScannerController extends GetxController with BaseController {
         }
       } else {
         hideLoading();
-        SnackbarHelper()
-            .snackbarWarning('Terjadi kesalahan atau Data tidak ditemukan');
+        SnackbarHelper().snackbarWarning(
+            'Terjadi kesalahan atau Data/QR Code tidak ditemukan');
       }
     }).catchError((onError) {
       hideLoading();

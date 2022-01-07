@@ -31,7 +31,6 @@ class SeksiController extends GetxController with BaseController {
         dataSeksi.value = jsonResponse.map((e) => Seksi.fromJson(e)).toList();
       } else {
         SnackbarHelper().snackbarWarning('Maaf, anda belum memiliki kelas');
-        // SnackbarHelper().snackbarError('');
       }
     }).catchError((error) {
       if (error is BadRequestException) {

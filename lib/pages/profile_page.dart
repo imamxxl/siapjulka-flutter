@@ -31,12 +31,12 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget buildTextField(
-    IconData iconData,
-    String labelText,
-    String placeholder,
-    bool isPasswordTextField,
-    bool enabled,
-  ) {
+      IconData iconData,
+      String labelText,
+      String placeholder,
+      bool isPasswordTextField,
+      TextEditingController controller,
+      bool enabled) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,6 +58,7 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Padding(
             padding: const EdgeInsets.only(bottom: 35.0),
             child: TextField(
+              controller: controller,
               enabled: enabled,
               obscureText: isPasswordTextField ? showPassword : false,
               decoration: InputDecoration(
@@ -166,20 +167,36 @@ class _ProfilePageState extends State<ProfilePage> {
                   const SizedBox(
                     height: 35,
                   ),
-                  buildTextField(Icons.account_circle_outlined, "NIM",
-                      '${userController.dataUser.value.nim}', false, false),
-                  buildTextField(Icons.badge_outlined, "Nama",
-                      '${userController.dataUser.value.nama}', false, false),
-                  buildTextField(Icons.article_outlined, "Gender",
-                      '${userController.dataUser.value.jk}', false, false),
+                  buildTextField(
+                      Icons.account_circle_outlined,
+                      "NIM",
+                      '${userController.dataUser.value.nim}',
+                      false,
+                      TextEditingController(),
+                      false),
+                  buildTextField(
+                      Icons.badge_outlined,
+                      "Nama",
+                      '${userController.dataUser.value.nama}',
+                      false,
+                      TextEditingController(),
+                      false),
+                  buildTextField(
+                      Icons.article_outlined,
+                      "Gender",
+                      '${userController.dataUser.value.jk}',
+                      false,
+                      TextEditingController(),
+                      false),
                   buildTextField(
                       Icons.school_outlined,
                       "Jurusan",
                       '${userController.dataUser.value.namaJurusan}',
                       false,
+                      TextEditingController(),
                       false),
                   buildTextField(Icons.lock_outline_rounded, "Password",
-                      "******", true, true),
+                      "******", true, userController.passwordController, true),
                   buildTextField(
                     Icons.app_settings_alt_outlined,
                     "ID Perangkat",
@@ -187,6 +204,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ? 'Perangkat belum terdaftar'
                         : userController.dataUser.value.imei!),
                     false,
+                    TextEditingController(),
                     false,
                   ),
                   Container(
@@ -199,10 +217,28 @@ class _ProfilePageState extends State<ProfilePage> {
                       color: Colors.transparent,
                       child: InkWell(
                         splashColor: Pallete.successColor[200],
-                        onTap: () {},
+                        onTap: () {
+                          Get.defaultDialog(
+                            contentPadding:
+                                const EdgeInsets.only(top: 10, bottom: 10),
+                            barrierDismissible: true,
+                            radius: 10,
+                            buttonColor: Pallete.successColor,
+                            title: 'Ubah Password',
+                            titleStyle: TextStyle(color: Pallete.successColor),
+                            middleText: 'Anda yakin ingin mengubah password?',
+                            textConfirm: 'Ubah',
+                            textCancel: 'Batal',
+                            cancelTextColor: Pallete.successColor,
+                            confirmTextColor: Colors.white,
+                            onConfirm: () {
+                              userController.changePassword();
+                            },
+                          );
+                        },
                         child: const Center(
                           child: Text(
-                            "Simpan",
+                            "Ubah Password",
                             style: TextStyle(fontSize: 18, color: Colors.white),
                           ),
                         ),

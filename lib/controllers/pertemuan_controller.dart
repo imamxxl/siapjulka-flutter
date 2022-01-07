@@ -23,9 +23,6 @@ class PertemuanController extends GetxController with BaseController {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     int? id = preferences.getInt("login");
 
-    // print('ini adalah id seksi ' + idSeksi.toString());
-    // print('ini adalah id user ' + id.toString());
-
     Domain response = Domain(url: '/pertemuan/$id', body: {
       'id_seksi': idSeksi.toString(),
     });
@@ -38,14 +35,11 @@ class PertemuanController extends GetxController with BaseController {
           List jsonResponse = jsonDecode(value.body);
           listPertemuan.value =
               jsonResponse.map((e) => Pertemuan.fromJson(e)).toList();
-          // print(jsonResponse);
-          // selectScaffoldKuliah(idSeksi);
           Get.to(
             () => const PertemuanPage(),
           );
         }
       } catch (error) {
-        // print(value.body);
         SnackbarHelper().snackbarWarning('${body['message']}');
       }
     }).catchError((error) {
