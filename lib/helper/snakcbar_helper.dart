@@ -48,4 +48,30 @@ class SnackbarHelper {
       ),
     );
   }
+
+  void snackbarAbsensiWarning(String message) {
+    Get.snackbar("Maaf", message,
+        barBlur: 2.0,
+        backgroundColor: Pallete.lightWarningColor[50],
+        snackPosition: SnackPosition.BOTTOM,
+        colorText: Colors.white,
+        icon: const Icon(
+          Icons.info_outline_rounded,
+          color: Colors.white,
+        ),
+        duration: const Duration(seconds: 10));
+  }
+
+  void snackbarAbsensiSuccess(String message) {
+    Get.snackbar("Sukses", message,
+        barBlur: 2.0,
+        backgroundColor: Pallete.lightSuccessColor[100],
+        snackPosition: SnackPosition.BOTTOM,
+        colorText: Colors.white,
+        icon: const Icon(
+          Icons.verified_outlined,
+          color: Colors.white,
+        ),
+        duration: const Duration(seconds: 10));
+  }
 }
