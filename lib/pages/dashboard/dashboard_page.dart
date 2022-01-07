@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:siapjulka/constant/pallete_color.dart';
 import 'package:siapjulka/controllers/pertemuan_controller.dart';
+import 'package:siapjulka/controllers/search_controller.dart';
 import 'package:siapjulka/controllers/user_controller.dart';
 import 'package:siapjulka/controllers/seksi_controller.dart';
 import 'package:siapjulka/controllers/test_controller.dart';
@@ -35,12 +36,17 @@ class _DashboardPageState extends State<DashboardPage> {
   final UserController userController = Get.put(UserController());
   final PertemuanController pertemuanController =
       Get.put(PertemuanController());
+  final SearchController searchController = Get.put(SearchController());
 
   @override
   void initState() {
     super.initState();
     getDeviceID();
     futureUser = UserService().getUser();
+  }
+
+  void _cariKelas() {
+    // searchController.post();
   }
 
   Widget welcomeUsers() {
@@ -253,7 +259,8 @@ class _DashboardPageState extends State<DashboardPage> {
     return Container(
       margin: const EdgeInsets.all(8),
       child: TextFormField(
-        // controller: passwordController,
+        textInputAction: TextInputAction.search,
+        // controller: se,
         style: const TextStyle(fontSize: 18),
         decoration: InputDecoration(
           border: InputBorder.none,
