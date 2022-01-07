@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:siapjulka/constant/pallete_color.dart';
 import 'package:siapjulka/controllers/scanner_controller.dart';
 import 'package:siapjulka/helper/snakcbar_helper.dart';
+import 'package:siapjulka/pages/scanner_home/scanner_hasil.dart';
 
 class ScannerPage extends StatefulWidget {
   const ScannerPage({Key? key}) : super(key: key);
@@ -58,8 +59,51 @@ class _ScannerPageState extends State<ScannerPage> {
     scannerController.post();
   }
 
+  Widget formData() {
+    return Visibility(
+      visible: false,
+      child: Align(
+        alignment: Alignment.center,
+        child: Container(
+          margin: const EdgeInsets.only(top: 400),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextField(
+                controller: scannerController.idController
+                  ..text = userlogin.toString(),
+                decoration: const InputDecoration(
+                  hintText: 'Id User',
+                ),
+              ),
+              TextField(
+                controller: scannerController.qrcodeController
+                  ..text = qrcode != null ? '${qrcode!.code}' : '',
+                decoration: const InputDecoration(hintText: 'QR Code'),
+              ),
+              TextField(
+                controller: scannerController.deviceController
+                  ..text = identifier,
+                decoration: const InputDecoration(hintText: 'Device Id'),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  onPrimary: Colors.white,
+                  primary: Pallete.primaryColor,
+                ),
+                onPressed: () => _isiAbsensi(),
+                child: const Text('Kirim'),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    formData();
     return Scaffold(
       body: Stack(
         children: [
@@ -79,51 +123,6 @@ class _ScannerPageState extends State<ScannerPage> {
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.white),
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: Container(
-              margin: const EdgeInsets.only(top: 400),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Visibility(
-                    visible: false,
-                    child: TextField(
-                      controller: scannerController.idController
-                        ..text = userlogin.toString(),
-                      decoration: const InputDecoration(
-                        hintText: 'Id User',
-                      ),
-                    ),
-                  ),
-                  Visibility(
-                    visible: false,
-                    child: TextField(
-                      controller: scannerController.qrcodeController
-                        ..text = qrcode != null ? '${qrcode!.code}' : '',
-                      decoration: const InputDecoration(hintText: 'QR Code'),
-                    ),
-                  ),
-                  Visibility(
-                    visible: false,
-                    child: TextField(
-                      controller: scannerController.deviceController
-                        ..text = identifier,
-                      decoration: const InputDecoration(hintText: 'Device Id'),
-                    ),
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      onPrimary: Colors.white,
-                      primary: Pallete.primaryColor,
-                    ),
-                    onPressed: () => _isiAbsensi(),
-                    child: const Text('Kirim'),
-                  )
-                ],
               ),
             ),
           ),
@@ -196,8 +195,13 @@ class _ScannerPageState extends State<ScannerPage> {
   void onQRViewCreated(QRViewController controller) {
     setState(() => this.controller = controller);
 
-    controller.scannedDataStream
-        .listen((qrcode) => setState(() => this.qrcode = qrcode));
+    controller.scannedDataStream.listen((qrcode) {
+      setState(() => this.qrcode = qrcode);
+      if (mounted) {
+        controller.dispose();
+        Get.to(const ScannerHasilPage());
+      }
+    });
   }
 
   // check QR Code result from the scanning
