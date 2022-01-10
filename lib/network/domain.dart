@@ -1,9 +1,13 @@
 import 'package:http/http.dart' as http;
 
 class Domain {
-  // ip debug with wifi
-  String baseUrl = 'http://192.168.100.162:8000/api';
-  String imageUrl = 'http://192.168.100.162:8000';
+  // ip for product
+  String baseUrl = 'https://www.hatipetani.com/api';
+  String imageUrl = 'https://www.hatipetani.com';
+
+  // // ip debug with wifi
+  // String baseUrl = 'http://192.168.100.162:8000/api';
+  // String imageUrl = 'http://192.168.100.162:8000';
 
   // // ip debug with tethering samsung j6
   // String baseUrl = 'http://192.168.43.6:8000/api';
