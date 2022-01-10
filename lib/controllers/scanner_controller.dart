@@ -20,7 +20,7 @@ class ScannerController extends GetxController with BaseController {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     int? id = preferences.getInt("login");
 
-    Domain request = Domain(url: '/absensi/', body: {
+    Domain request = Domain(url: '/absensi', body: {
       'id_user': id.toString(),
       'qrcode': qrcodeController.text,
       'device_id': deviceController.text,
