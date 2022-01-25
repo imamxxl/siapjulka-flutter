@@ -86,7 +86,7 @@ class _NavPageState extends State<NavPage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            label: 'Kelas',
+            label: 'Token',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.qr_code_scanner),
