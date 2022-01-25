@@ -385,6 +385,7 @@ class _DashboardPageState extends State<DashboardPage> {
       final body = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
+        Get.back();
         SnackbarHelper().snackbarSuccess("${body['message']}");
       } else {
         SnackbarHelper().snackbarError('${body!['message']}');
